@@ -18,7 +18,7 @@
           display: block;
           width: 14px;
           height: 12px;
-          background: url('star.png') -15px 0;
+          background: url('../img/star.png') -15px 0;
       }
 
 /* Just for the demo */

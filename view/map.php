@@ -5,82 +5,28 @@
     <meta charset="utf-8">
     <title>Simple markers</title>
     <style>
-      #map-canvas {
-        width:600px;
-        height:500px;
-        float: left;
-      }
-      #commentaires {
-        width:300px;
-        height:500px;
-        border:1px solid black;
-        float: left;
-      }
-      #infoWindowDiv {
-        width:300px;
-        height:300px;
-      }
+      
     </style>
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/editPageText.js"></script>
+    <script src="js/bgBarTimetable.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script>
+    
+</script>
     <script>
       var markers = [];
       var map;
       var infowindow;
       var selectedMarker; // The current marker.
+      var InfoWindowContentAdd;
 
-      var InfoWindowContentAdd = 
-                  "<div id='infoWindowDiv'>"
-                   +"Rate : "
-                   +"<span class='rating'>"
-                   +"     <input type='radio' class='rating-input' id='rating-input-1-5' name='rating-input-1'>"
-                   +"     <label for='rating-input-1-5' class='rating-star'></label>"
-                   +"     <input type='radio' class='rating-input' id='rating-input-1-4' name='rating-input-1'>"
-                   +"     <label for='rating-input-1-4' class='rating-star'></label>"
-                   +"     <input type='radio' class='rating-input' id='rating-input-1-3' name='rating-input-1'>"
-                   +"     <label for='rating-input-1-3' class='rating-star'></label>"
-                   +"     <input type='radio' class='rating-input' id='rating-input-1-2' name='rating-input-1'>"
-                   +"     <label for='rating-input-1-2' class='rating-star'></label>"
-                   +"     <input type='radio' class='rating-input' id='rating-input-1-1' name='rating-input-1'>"
-                   +"     <label for='rating-input-1-1' class='rating-star'></label>"
-                   +" </span><br/>"
-                   +"<table style='border:1px solid black'>"
-                   +"<tr>"
-                   +"<td>Lundi</td>"
-                   +"<td><div style='background-color:gray; width:120px; text-align:center'>8h - 20h</div></td>"
-                   +"</tr>"
-                   +"<tr>"
-                   +"<td>Mardi</td>"
-                   +"<td><div style='background-color:gray; margin-left:10px; width:90px; text-align:center'>9h - 18h</div></td>"
-                   +"</tr>"
-                   +"<tr>"
-                   +"<td>Mercredi</td>"
-                   +"<td><div style='background-color:gray; width:120px; text-align:center'>8h - 20h</div></td>"
-                   +"</tr>"
-                   +"<tr>"
-                   +"<td>Jeudi</td>"
-                   +"<td><div style='background-color:gray; width:120px; text-align:center'>8h - 20h</div></td>"
-                   +"</tr>"
-                   +"<tr>"
-                   +"<td>Vendredi</td>"
-                   +"<td><div style='background-color:gray; width:120px; text-align:center'>8h - 20h</div></td>"
-                   +"</tr>"
-                   +"<tr>"
-                   +"<td>Samedi</td>"
-                   +"<td><div style='background-color:gray; width:120px; text-align:center'>8h - 20h</div></td>"
-                   +"</tr>"
-                   +"<tr>"
-                   +"<td>Dimanche</td>"
-                   +"<td><div style='background-color:gray; width:120px; text-align:center'>8h - 20h</div></td>"
-                   +"</tr>"
-                   +"</table>"
-                   +"<input type='checkbox' /> free connection<br>"
-                   +"<input type='checkbox' /> free coffee<br>"
-                   +""
-                   +""
-                   +""
-                   +""
-                   +"<a href='javascript:void(0)' id='addLocation' onclick='addMarker()'>Add this location</a><br/>"
-                 +"</div>";
+      // Charge le contenu de l'infoWindow pour l'action add.
+      $.get( "infoWindow_add.html", function( data ) {
+        InfoWindowContentAdd = data;
+      });
+
+
 
       var InfoWindowContentRemove = 
                   "<div id='infoWindowDiv'>"
@@ -120,6 +66,7 @@
 
           infowindow.content = InfoWindowContentAdd;
           infowindow.open(map, selectedMarker);
+          updateTimetableBackground();
         });
 
       }
@@ -153,10 +100,15 @@
             infowindow.open(map, marker);
           });
 
+          // Save
+          var f = document.getElementsByName('infoWindowDiv');
+          alert("saving "+f.length);
+
         };
     </script>
     <!-- Star system (css-star-rater) -->
-    <link rel="stylesheet" type="text/css" href="css-star-rater.css" /> 
+    <link rel="stylesheet" type="text/css" href="css/css-star-rater.css" /> 
+    <link rel="stylesheet" type="text/css" href="css/main.css" /> 
   </head>
   <body>
 
