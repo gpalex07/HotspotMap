@@ -19,11 +19,11 @@
 
     var InfoWindowContentRemove = 
       "<div id='infoWindowDiv'>"
-     +"<a href='javascript:void(0)' ' onclick='removeMarker()'>Remove this location</a><br/>"
+     +"<a href='javascript:void(0)' ' onclick='$.ggMapsFunctions.removeMarker()'>Remove this location</a><br/>"
      +"</div>";
 
 
-    $.ggMapsFunctions.init=function() {
+    $.ggMapsFunctions.initialize=function() {
       var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
       var mapOptions = {
         zoom: 4,
@@ -31,13 +31,13 @@
       }
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-      var marker = new google.maps.Marker({
-        position: myLatlng,
-        map: map,
-        title: 'Hello World!',
-        icon: 'img/wave.png'
-      });
-      markers.push(marker);
+      /* Adds a sample location */
+      selectedMarker = new google.maps.Marker({
+          position: myLatlng,
+          map: map,
+          title: 'Hello World!'
+        });
+      $.ggMapsFunctions.addMarker();
 
       infowindow = new google.maps.InfoWindow({
         content: InfoWindowContentAdd
@@ -66,6 +66,13 @@
         });
               
       });
+  
+      // This code keeps the map centered during a resize event.
+      google.maps.event.addDomListener(window, "resize", function() {
+          var center = map.getCenter();
+          google.maps.event.trigger(map, "resize");
+          map.setCenter(center); 
+      });
 
       return this;
     }
@@ -76,7 +83,7 @@
     }
 
     $.ggMapsFunctions.addMarker = function() {
-      InfoWindowContentAdd = "<div id='infoWindowDiv'>" +document.getElementById("infoWindowDiv").innerHTML +"</div>";
+      //InfoWindowContentAdd = "<div id='infoWindowDiv'>" +document.getElementById("infoWindowDiv").innerHTML +"</div>";
       //parseRawForm(); // Parse the form and saves it.
 
       var marker = new google.maps.Marker({
@@ -87,7 +94,7 @@
       });
       selectedMarker.setMap(null);
       markers.push(marker);
-      electedMarker = null;
+      selectedMarker = null;
 
 
       google.maps.event.addListener(marker, 'click', function() {
@@ -96,7 +103,7 @@
         infowindow.open(map, marker);
       });
     }
-  
+    
   //google.maps.event.addDomListener(window, 'load', initialize);*/
 
   

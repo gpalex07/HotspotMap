@@ -17,7 +17,7 @@
         //scale: ['0:00', '4:00', '8:00', '12:00', '16:00', '20:00', '24:00'], 
         limits: false, 
         callback: function(value){
-          document.getElementById(slider).value = value;
+          document.getElementById(slider).value = value; // Update the value (important, otherwise the value of the slider is not in the innerHTML)
         },
         calculate: function( value ){
             var hours = Math.floor( value / 60 );

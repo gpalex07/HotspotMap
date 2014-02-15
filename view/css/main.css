@@ -1,5 +1,5 @@
 #map-canvas {
-  width:600px;
+  width:100%;
   height:500px;
   float: left;
 }
@@ -11,6 +11,7 @@
   float: left;
 }
 
+#page-container { width:1000px; }
 
 
 /* CSS about the infowindow of the Google Map */
@@ -20,17 +21,13 @@
   overflow: hidden;
 }
 
-#timetable {
-	width:330px;
-}
+#timetable { width:330px; }
 
-#timetable span {
-  font-size:10px;
-}
+#timetable tr { line-height: 21px; }
 
-#timetable .jslider-value {
-  margin-top:4px;
-}
+#timetable span { font-size:10px; }
+
+#timetable .jslider-value { margin-top:4px; }
 
 #timetable .jslider-pointer {
   margin-top:2px;

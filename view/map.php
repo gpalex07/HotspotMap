@@ -4,9 +4,6 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Simple markers</title>
-    <style>
-        .ui-widget-header { border: 1px solid #0b3e6f; background: #0b3e6f url(img/stars.png) 50% 50% repeat; color: #f6f6f6; font-weight: bold; }
-    </style>
 
     <!-- css -->
     <link rel="stylesheet" type="text/css" href="css/css-star-rater.css" /> <!-- Star rating system (css-star-rater) used in the infowindow -->
@@ -34,14 +31,16 @@
         $(document).ready(init);
         function init() 
         {
-          $.ggMapsFunctions.init();
+          $.ggMapsFunctions.initialize();
         }
     </script>
 
   
   </head>
   <body>
-    <div id="map-canvas"></div>
-    <div id="commentaires">Commentaires</div>
+    <div id="page-container">
+      <div id="map-canvas"></div>
+      <div id="commentaires">Commentaires</div>
+    </div>
   </body>
 </html>
