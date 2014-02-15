@@ -11,7 +11,43 @@
   float: left;
 }
 
+
+
+/* CSS about the infowindow of the Google Map */
 #infoWindowDiv {
-  width:300px;
-  height:300px;
+  width:335px;
+  height:310px;
+  overflow: hidden;
 }
+
+#timetable {
+	width:330px;
+}
+
+#timetable span {
+  font-size:10px;
+}
+
+#timetable .jslider-value {
+  margin-top:4px;
+}
+
+#timetable .jslider-pointer {
+  margin-top:2px;
+  height:10px;
+  z-index:10;
+}
+
+#locationName {
+  width:100%;
+  border:1px solid gray;
+}
+
+.blank_row
+{
+    height: 10px !important; /* Overwrite any previous rules */
+    background-color: #FFFFFF;
+}
+
+
+/* --------------------------- */
