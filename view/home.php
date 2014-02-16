@@ -34,8 +34,9 @@
     <script type="text/javascript" src="js/jSlider/jquery.slider.js"></script>
     <!-- end jSlider -->
     <!-- end javascript -->
-    <script src="js/initSliders.js"></script>
-    <script src="js/ggMapsFunctions.js"></script>  
+    <script src="js/sliders.js"></script>
+    <script src="js/ggMapsFunctions.js"></script> 
+    <script src="js/disqusFunctions.js"></script> 
           
     <script type="text/javascript">
         $(document).ready(init);
@@ -105,11 +106,13 @@
       <div id="map-canvas"></div>
 
             
-      <!-- DISQUS CODE -->
+      <!-- DISQUS AJAX -->
       <div id="disqus_thread"></div>
       <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
         var disqus_shortname = 'hotspotmap'; // required: replace example with your forum shortname
+        var disqus_identifier = '1';
+        var disqus_url = "http://localhost/map.php";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {
@@ -120,7 +123,7 @@
       </script>
       <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
       <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-      <!-- END DISQUS CODE -->
+      <!-- END DISQUS -->
     
 
 
@@ -130,13 +133,10 @@
 
     </div> <!-- /container -->
 
+    <input type="button" value="destroy sliders" onclick="$.sliders.destroySliders()" />
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-
-
-    
-    
   </body>
 </html>

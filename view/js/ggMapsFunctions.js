@@ -9,63 +9,57 @@
     var infowindow;
     var selectedMarker; // The current marker.
     var InfoWindowContentAdd;
+    var InfoWindowContentEdit;
+    var InfoWindowContentRead;
 
     var infoWindowContent_addSlidersInit = null;
 
-    // Loads the content of the infowindow.
-    $.get( "infoWindow_add.html", function( data ) {
-      InfoWindowContentAdd = data;
-    });
 
-    var InfoWindowContentRemove = 
-      "<div id='infoWindowDiv'>"
-     +"<a href='javascript:void(0)' ' onclick='$.ggMapsFunctions.removeMarker()'>Remove this location</a><br/>"
-     +"</div>";
+    // Loads the contents of the infowindow.
+    $.ggMapsFunctions.loadContentsInfoWindow=function(){
+      $.get( "infoWindow_add.html", function( data ) {
+        InfoWindowContentAdd = data;
+      });      
+
+      $.get( "infoWindow_read.html", function( data ) {
+        InfoWindowContentRead = data;
+      });
+    }
 
 
     $.ggMapsFunctions.initialize=function() {
+      $.ggMapsFunctions.loadContentsInfoWindow();
+
       var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
-      var mapOptions = {
-        zoom: 4,
-        center: myLatlng
-      }
+      var mapOptions = {zoom: 4, center: myLatlng }
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
       /* Adds a sample location */
-      selectedMarker = new google.maps.Marker({
-          position: myLatlng,
-          map: map,
-          title: 'Hello World!'
-        });
+      selectedMarker = new google.maps.Marker({position: myLatlng, map: map, title: 'Hello World!'});
       $.ggMapsFunctions.addMarker();
 
-      infowindow = new google.maps.InfoWindow({
-        content: InfoWindowContentAdd
-      });
+      infowindow = new google.maps.InfoWindow({content: InfoWindowContentAdd});
 
       google.maps.event.addListener(map, "rightclick", function(event) {
         if(selectedMarker != null){ selectedMarker.setMap(null); selectedMarker = null; }
-        selectedMarker = new google.maps.Marker({
-          position: event.latLng,
-          map: map,
-          title: 'Hello World!'
-        });
+        selectedMarker = new google.maps.Marker({position: event.latLng, map: map, title: 'Hello World!'});
 
-        if(infoWindowContent_addSlidersInit==null) infowindow.content = InfoWindowContentAdd;
-        else infowindow.content = infoWindowContent_addSlidersInit;
+        /*if(infoWindowContent_addSlidersInit==null) infowindow.content = InfoWindowContentAdd;
+        else infowindow.content = infoWindowContent_addSlidersInit;*/
 
-        infowindow.open(map, selectedMarker);
-        google.maps.event.addListener(infowindow, 'domready', function() {
-          // Save the html code of the infowindow after the slider have been init.
-          if(infoWindowContent_addSlidersInit==null){
-            $.initSliders.init();
-            infoWindowContent_addSlidersInit = "<div id='infoWindowDiv'>" 
-                                              +document.getElementById("infoWindowDiv").innerHTML 
-                                              +"</div>";
-          }
-        });
-              
+        infowindow.content = InfoWindowContentAdd;
+        infowindow.open(map, selectedMarker);          
       });
+
+      // Infowindow events
+      google.maps.event.addListener(infowindow, 'domready', function() {
+        $.sliders.initSliders();
+      });
+
+      google.maps.event.addListener(infowindow, 'closeclick', function() {
+        $.sliders.destroySliders();
+      });
+            
   
       // This code keeps the map centered during a resize event.
       google.maps.event.addDomListener(window, "resize", function() {
@@ -92,15 +86,23 @@
         title: selectedMarker.title,
         icon: 'img/wave.png'
       });
+      marker.set("id", markers.length); // Set the id of the marker, used to get the correct thread of disqus comments
       selectedMarker.setMap(null);
       markers.push(marker);
       selectedMarker = null;
 
-
+      // Click event on the marker
       google.maps.event.addListener(marker, 'click', function() {
         selectedMarker = this;
-        infowindow.content = InfoWindowContentRemove;
-        infowindow.open(map, marker);
+
+        // Once the content is loaded, we display the infowindow
+        $.get( "infoWindow_edit.php", function( data ) {
+          infowindow.content = data;
+          $.sliders.initSliders();
+          infowindow.open(map, marker);
+        });
+
+        $.disqusFunctions.reloadWithMarkerId(marker.get("id"));
       });
     }
     

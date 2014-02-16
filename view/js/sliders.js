@@ -1,11 +1,12 @@
 (function($)
 {
-  $.initSliders = function() {}
+  var sliders = ["sliderMonday","sliderTuesday","sliderWednesday","sliderThursday","sliderFriday","sliderSaturday","sliderSunday"];
 
-  $.initSliders.init=function()
+
+  $.sliders = function() {}
+
+  $.sliders.initSliders=function()
   {
-    var sliders = ["sliderMonday","sliderTuesday","sliderWednesday","sliderThursday","sliderFriday","sliderSaturday","sliderSunday"];
-
     for (var i=0; i<sliders.length; i++) {
       var slider = sliders[i];
 
@@ -23,8 +24,21 @@
             var hours = Math.floor( value / 60 );
             var mins = ( value - hours*60 );
             return (hours < 10 ? "0"+hours : hours) + ":" + ( mins == 0 ? "00" : mins );
-      }})
+      }});
+      console.log("the object is ");
+      console.log(jQuery("#" + slider));
+      console.log(jQuery("#" + slider).slider());
+      console.log(jQuery("#" + slider).slider( "option", "disabled" ));
+      console.log("the object was ");
+
     }
+
+    return this;
+  };
+
+  // We destroy the div containing the sliders.
+  $.sliders.destroySliders=function(){
+    jQuery("#infoWindowDiv").remove();
 
     return this;
   };
