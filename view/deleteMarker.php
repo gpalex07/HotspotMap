@@ -1,7 +1,7 @@
 <?php
 
 $MARKER_DELETION_CONFIRMED = "MARKER_DELETION_CONFIRMED"; // The server's response to confirm that a marker has been deleted
-$MARKER_DELETION_FAILED = "MARKER_DELETION_FAILED";
+$MARKER_DELETION_FAILED    = "MARKER_DELETION_FAILED";
 
 
 

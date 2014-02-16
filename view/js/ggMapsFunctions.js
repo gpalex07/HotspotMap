@@ -13,6 +13,8 @@
     var InfoWindowContentRead;
 
     var MARKER_DELETION_CONFIRMED = "MARKER_DELETION_CONFIRMED"; // Response message when a marker is succesfully deleted on the server.
+    var MARKER_ADDED_CONFIRMED    = "MARKER_ADDED_CONFIRMED"; // Response message when a marker is succesfully added on the server.
+    var MARKER_ADDED_FAILED       = -1;
 
     var infoWindowContent_addSlidersInit = null;
 
@@ -37,8 +39,8 @@
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
       /* Adds a sample location */
-      selectedMarker = new google.maps.Marker({position: myLatlng, map: map, title: 'Hello World!'});
-      $.ggMapsFunctions.addMarker();
+      //selectedMarker = new google.maps.Marker({position: myLatlng, map: map, title: 'Hello World!'});
+      $.ggMapsFunctions.addMarker(0, myLatlng, "Hello World!");
 
       infowindow = new google.maps.InfoWindow({content: InfoWindowContentAdd});
 
@@ -55,11 +57,11 @@
 
       // Infowindow events
       google.maps.event.addListener(infowindow, 'domready', function() {
-        $.sliders.initSliders();
+        $.form.initSliders();
       });
 
       google.maps.event.addListener(infowindow, 'closeclick', function() {
-        $.sliders.destroySliders();
+        $.form.destroySliders();
       });
             
   
@@ -83,39 +85,41 @@
       });
     }
 
-    $.ggMapsFunctions.addMarker = function() {
-      //InfoWindowContentAdd = "<div id='infoWindowDiv'>" +document.getElementById("infoWindowDiv").innerHTML +"</div>";
-      //parseRawForm(); // Parse the form and saves it.
+    $.ggMapsFunctions.addMarker = function(id, position, title) {
 
-      var marker = new google.maps.Marker({
-        position: selectedMarker.position,
-        map: map,
-        title: selectedMarker.title,
-        icon: 'img/wave.png'
-      });
-      marker.set("id", markers.length); // Set the id of the marker, used to get the correct thread of disqus comments
-      selectedMarker.setMap(null);
+      var marker = new google.maps.Marker({position: position, map: map, title: title, icon: 'img/wave.png'});
+      marker.set("id", id); // Set the id of the marker, used to get the correct thread of disqus comments
       markers.push(marker);
-      selectedMarker = null;
 
       // Click event on the marker
       google.maps.event.addListener(marker, 'click', function() {
-        selectedMarker = this;
-
         // Once the content is loaded, we display the infowindow
         $.get( "infoWindow_edit.php?id="+marker.get("id"), function( data ) {
           infowindow.content = data;
-          $.sliders.initSliders();
           infowindow.open(map, marker);
+          $.form.initSliders();
         });
 
         $.disqusFunctions.reloadWithMarkerId(marker.get("id"));
       });
     }
+
+    $.ggMapsFunctions.addNewMarker=function(){
+      var formValues= $.form.extractContentInfoWindow(); // Extract the values that the user has typed in the infowindow (=form)
+      formValues.position= selectedMarker.position;
+      var params= $.form.createEncodedStringFromFormObject(formValues); // Prepares this object to pass its values as a string in the get request
+
+      $.get( "addMarker.php"+params, function( data ) {
+        if(data != MARKER_ADDED_FAILED){
+          $.ggMapsFunctions.addMarker(data, formValues.position, "Hello World!"); // The return value (data) is the id of the new marker.
+          selectedMarker.setMap(null);
+          selectedMarker = null;
+        } else alert("Error: could not add this marker.\n\nServer response:\n"+data);
+      });
+    }
     
   //google.maps.event.addDomListener(window, 'load', initialize);*/
 
-  
 
 })(jQuery);
 

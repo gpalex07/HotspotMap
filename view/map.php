@@ -24,7 +24,7 @@
     <script type="text/javascript" src="js/jSlider/jquery.slider.js"></script>
     <!-- end jSlider -->
     <!-- end javascript -->
-    <script src="js/sliders.js"></script>
+    <script src="js/form.js"></script>
     <script src="js/ggMapsFunctions.js"></script>  
           
     <script type="text/javascript">

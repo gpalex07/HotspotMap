@@ -16,7 +16,7 @@
     <table id="timetable">
       <tr>
          <td style="width:105px"><strong>Location's name :</strong></td>
-         <td><?php echo $locationName . " (id= " . $id . ")"; ?></td>
+         <td><input type="text" id="locationName" value='<?php echo $locationName . " (id= " . $id . ")"; ?>' /></td>
       </tr>
       <tr class="blank_row"></tr>
       <tr>
@@ -49,8 +49,8 @@
       </tr>
    </table>
    <br>
-   <label><input type='checkbox' /> free internet connection</label><br>
-   <label><input type='checkbox' <?php if($freeCoffee==true) echo "checked='checked'"; ?> /> free coffee</label>
+   <label><input type='checkbox' id="freeInternetConnection" /> free internet connection</label><br>
+   <label><input type='checkbox' id="freeCoffee" <?php if($freeCoffee==true) echo "checked='checked'"; ?> /> free coffee</label>
    <br><br>                  
    Rate : 
    <div class='rating'>
@@ -73,7 +73,7 @@
 
    <br>                
    <a href='javascript:void(0)' id='addLocation' onclick=''>Update this location</a><br/>
-   <a href='javascript:void(0)' id='addLocation' onclick='$.ggMapsFunctions.removeMarker()'>Remove this location</a><br/>
+   <a href='javascript:void(0)' id='addLocation' onclick='$.ggMapsFunctions.removeMarker( <?php echo $id; ?>)'>Remove this location</a><br/>
    
    <?php 
    }
