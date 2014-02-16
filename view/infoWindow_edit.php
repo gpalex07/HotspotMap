@@ -72,8 +72,9 @@
    ?>
 
    <br>                
+   <a href='javascript:void(0)' id='addLocation' onclick='$.disqusFunctions.reloadWithMarkerId(<?php echo $id; ?>)'>Read comments</a><br/>
    <a href='javascript:void(0)' id='addLocation' onclick=''>Update this location</a><br/>
-   <a href='javascript:void(0)' id='addLocation' onclick='$.ggMapsFunctions.removeMarker( <?php echo $id; ?>)'>Remove this location</a><br/>
+   <a href='javascript:void(0)' id='addLocation' onclick='$.ggMapsFunctions.removeMarker(<?php echo $id; ?>)'>Remove this location</a><br/>
    
    <?php 
    }

@@ -23,10 +23,6 @@
     $.ggMapsFunctions.loadContentsInfoWindow=function(){
       $.get( "infoWindow_add.html", function( data ) {
         InfoWindowContentAdd = data;
-      });      
-
-      $.get( "infoWindow_read.html", function( data ) {
-        InfoWindowContentRead = data;
       });
     }
 
@@ -75,15 +71,21 @@
       return this;
     }
 
-    $.ggMapsFunctions.removeMarker = function() {
+
+
+
+    $.ggMapsFunctions.removeMarker = function(id) {
       // Ask the server to delete the marker. Wait for the answer to confirm deletion.
-      $.get( "deleteMarker.php?id="+selectedMarker.get("id"), function( data ) {
+      $.get( "deleteMarker.php?id="+id, function( data ) {
         if(data === MARKER_DELETION_CONFIRMED){
           selectedMarker.setMap(null);
           selectedMarker = null;
         } else alert("Error: could not delete this marker.\n\nServer response:\n"+data);
       });
     }
+
+
+
 
     $.ggMapsFunctions.addMarker = function(id, position, title) {
 
@@ -93,16 +95,19 @@
 
       // Click event on the marker
       google.maps.event.addListener(marker, 'click', function() {
+        selectedMarker= this;
+
         // Once the content is loaded, we display the infowindow
         $.get( "infoWindow_edit.php?id="+marker.get("id"), function( data ) {
           infowindow.content = data;
           infowindow.open(map, marker);
           $.form.initSliders();
         });
-
-        $.disqusFunctions.reloadWithMarkerId(marker.get("id"));
       });
     }
+
+
+
 
     $.ggMapsFunctions.addNewMarker=function(){
       var formValues= $.form.extractContentInfoWindow(); // Extract the values that the user has typed in the infowindow (=form)
@@ -117,36 +122,4 @@
         } else alert("Error: could not add this marker.\n\nServer response:\n"+data);
       });
     }
-    
-  //google.maps.event.addDomListener(window, 'load', initialize);*/
-
-
 })(jQuery);
-
-  
-
-
-  
-
-//};
-
-
-
-      
-/*
-// Prase the form that the user completed to add a new location
-function parseRawForm(){
-  var timetable = document.getElementById("timetable");
-  var row = timetable.getElementsByTagName("div");
-
-  for(var i=0; i<row.length; i++){
-    var spans = row[i].getElementsByTagName("span");
-    if(spans.length == 2){ // 2 pair of span tags, 1 for opening hour, the other one for closing hour.
-      var open = spans[0].innerHTML.replace(/\D+/, '');
-      var end = spans[1].innerHTML.replace(/\D+/, '');
-      if(!isNaN(open) && !isNaN(end)){
-        //alert(i + "> " + open + " " + end);
-      }
-    }
-  }
-}*/

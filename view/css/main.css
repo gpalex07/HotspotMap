@@ -17,7 +17,7 @@
 /* CSS about the infowindow of the Google Map */
 #infoWindowDiv {
   width:335px;
-  height:330px;
+  height:345px;
   overflow: hidden;
 }
 

@@ -40,20 +40,20 @@
 
   // Extracts the values in the infowindow (location's name, opening hours ...) and return an object containing these values.
   $.form.extractContentInfoWindow=function(){
-    var formValues= new Object();
-    formValues.locationName=  document.getElementById("locationName").value;
+    var formValues             = new Object();
+    formValues.locationName    =  document.getElementById("locationName").value;
 
-    formValues.sliderMonday   = document.getElementById("sliderMonday"   ).value;
-    formValues.sliderTuesday  = document.getElementById("sliderTuesday"  ).value;
-    formValues.sliderWednesday= document.getElementById("sliderWednesday").value;
-    formValues.sliderThursday = document.getElementById("sliderThursday" ).value;
-    formValues.sliderFriday   = document.getElementById("sliderFriday"   ).value;
-    formValues.sliderSaturday = document.getElementById("sliderSaturday" ).value;
-    formValues.sliderSunday   = document.getElementById("sliderSunday"   ).value;
+    formValues.sliderMonday    = document.getElementById("sliderMonday"   ).value;
+    formValues.sliderTuesday   = document.getElementById("sliderTuesday"  ).value;
+    formValues.sliderWednesday = document.getElementById("sliderWednesday").value;
+    formValues.sliderThursday  = document.getElementById("sliderThursday" ).value;
+    formValues.sliderFriday    = document.getElementById("sliderFriday"   ).value;
+    formValues.sliderSaturday  = document.getElementById("sliderSaturday" ).value;
+    formValues.sliderSunday    = document.getElementById("sliderSunday"   ).value;
 
 
-    formValues.freeConnection= document.getElementById("freeInternetConnection").checked;
-    formValues.freeCoffee    = document.getElementById("freeCoffee").checked;
+    formValues.freeConnection = document.getElementById("freeInternetConnection").checked;
+    formValues.freeCoffee     = document.getElementById("freeCoffee").checked;
 
     var rating=-1;
     if(document.getElementById("rating-input-1-5").checked==true)      rating=5;
@@ -66,21 +66,22 @@
 
     return formValues;
   }
+  
 
   $.form.createEncodedStringFromFormObject=function(formValues){
     var params="?";
     params+= "locationName="    +encodeURIComponent(formValues.locationName) +"&";
-    params+= "sliderMonday="    +formValues.sliderMonday +"&";
-    params+= "sliderTuesday="   +formValues.sliderTuesday +"&";
+    params+= "sliderMonday="    +formValues.sliderMonday    +"&";
+    params+= "sliderTuesday="   +formValues.sliderTuesday   +"&";
     params+= "sliderWednesday=" +formValues.sliderWednesday +"&";
-    params+= "sliderThursday="  +formValues.sliderThursday +"&";
-    params+= "sliderFriday="    +formValues.sliderFriday +"&";
-    params+= "sliderSaturday="  +formValues.sliderSaturday +"&";
-    params+= "sliderSunday="    +formValues.sliderSunday +"&";
-    params+= "freeConnection="  +formValues.freeConnection +"&";
-    params+= "freeCoffee="      +formValues.freeCoffee +"&";
-    params+= "rating="          +formValues.rating +"&";
-    params+= "lat="             +formValues.position.lat() + "&";
+    params+= "sliderThursday="  +formValues.sliderThursday  +"&";
+    params+= "sliderFriday="    +formValues.sliderFriday    +"&";
+    params+= "sliderSaturday="  +formValues.sliderSaturday  +"&";
+    params+= "sliderSunday="    +formValues.sliderSunday    +"&";
+    params+= "freeConnection="  +formValues.freeConnection  +"&";
+    params+= "freeCoffee="      +formValues.freeCoffee      +"&";
+    params+= "rating="          +formValues.rating          +"&";
+    params+= "lat="             +formValues.position.lat()  +"&";
     params+= "lng="             +formValues.position.lng();
 
     return params;
