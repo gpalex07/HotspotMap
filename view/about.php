@@ -16,34 +16,9 @@
     <link href="css/jumbotron-narrow.css" rel="stylesheet">
 
     <!-- css -->
-    <link rel="stylesheet" type="text/css" href="css/css-star-rater.css" /> <!-- Star rating system (css-star-rater) used in the infowindow -->
-    <link rel="stylesheet" href="css/jslider.css" type="text/css"> <!-- jSlider used in the infowindow -->
     <link rel="stylesheet" type="text/css" href="css/main.css" /> 
     <!-- end css -->
 
-    
-    <!-- javascript -->
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-    <!-- jSlider js files (jSlider is used in the infowindw) -->
-    <script type="text/javascript" src="js/jSlider/jquery-1.7.1.js"></script>
-    <script type="text/javascript" src="js/jSlider/jshashtable-2.1_src.js"></script>
-    <script type="text/javascript" src="js/jSlider/jquery.numberformatter-1.2.3.js"></script>
-    <script type="text/javascript" src="js/jSlider/tmpl.js"></script>
-    <script type="text/javascript" src="js/jSlider/jquery.dependClass-0.1.js"></script>
-    <script type="text/javascript" src="js/jSlider/draggable-0.1.js"></script>
-    <script type="text/javascript" src="js/jSlider/jquery.slider.js"></script>
-    <!-- end jSlider -->
-    <!-- end javascript -->
-    <script src="js/initSliders.js"></script>
-    <script src="js/ggMapsFunctions.js"></script>  
-          
-    <script type="text/javascript">
-        $(document).ready(init);
-        function init() 
-        {
-          $.ggMapsFunctions.initialize();
-        }
-    </script>
 
 
 
@@ -64,8 +39,8 @@
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
+          <li><a href="home.php">Home</a></li>
+          <li class="active"><a href="#">About</a></li>
           <li><a href="#">Contact</a></li>
         </ul>
         <h3 class="text-muted">Hotspot Map</h3>
@@ -76,9 +51,6 @@
         <p class="lead">Hotspot Map allows you to quickly find the best places where you can code with free internet connection, free coffee, comfortable sofas ... and more!</p>
         <p><a class="btn btn-lg btn-success" href="#" role="button">Sign in with Twitter</a></p>
       </div>
-
-      <!-- Google Map -->
-      <div id="map-canvas"></div>
 
       <div class="row marketing">
         <div class="col-lg-6">
@@ -104,6 +76,26 @@
         </div>
       </div>
 
+            
+      <!-- DISQUS CODE -->
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'hotspotmap'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      <!-- END DISQUS CODE -->
+    
+
+
       <div class="footer">
         <p>&copy; Pierre-Alexandre Guénolé, Ecrah EZA - ISIMA 2014</p>
       </div>
@@ -114,5 +106,9 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+
+
+    
+    
   </body>
 </html>
