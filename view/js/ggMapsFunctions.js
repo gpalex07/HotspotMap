@@ -12,6 +12,8 @@
     var InfoWindowContentEdit;
     var InfoWindowContentRead;
 
+    var MARKER_DELETION_CONFIRMED = "MARKER_DELETION_CONFIRMED"; // Response message when a marker is succesfully deleted on the server.
+
     var infoWindowContent_addSlidersInit = null;
 
 
@@ -72,8 +74,13 @@
     }
 
     $.ggMapsFunctions.removeMarker = function() {
-      selectedMarker.setMap(null);
-      selectedMarker = null; 
+      // Ask the server to delete the marker. Wait for the answer to confirm deletion.
+      $.get( "deleteMarker.php?id="+selectedMarker.get("id"), function( data ) {
+        if(data === MARKER_DELETION_CONFIRMED){
+          selectedMarker.setMap(null);
+          selectedMarker = null;
+        } else alert("Error: could not delete this marker.\n\nServer response:\n"+data);
+      });
     }
 
     $.ggMapsFunctions.addMarker = function() {
@@ -96,7 +103,7 @@
         selectedMarker = this;
 
         // Once the content is loaded, we display the infowindow
-        $.get( "infoWindow_edit.php", function( data ) {
+        $.get( "infoWindow_edit.php?id="+marker.get("id"), function( data ) {
           infowindow.content = data;
           $.sliders.initSliders();
           infowindow.open(map, marker);

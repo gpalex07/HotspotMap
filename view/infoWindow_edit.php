@@ -3,14 +3,20 @@
    $rating=5;
    $freeCoffee=true;
 
+   $id = "unknown id";
+   if(isset($_GET['id']))
+      $id = $_GET['id'];
+
+   $USER_IS_ADMIN = true;
+
 ?>
 
 
 <div id='infoWindowDiv'>
     <table id="timetable">
       <tr>
-         <td style="width:105px"><label for="locationName"><strong>Location's name :</strong></label></td>
-         <td><?php echo $locationName; ?></td>
+         <td style="width:105px"><strong>Location's name :</strong></td>
+         <td><?php echo $locationName . " (id= " . $id . ")"; ?></td>
       </tr>
       <tr class="blank_row"></tr>
       <tr>
@@ -60,6 +66,17 @@
          <label for='rating-input-1-1' class='rating-star'></label>
    </div>
 
+
+   <?php 
+   if($USER_IS_ADMIN==true){
+   ?>
+
    <br>                
    <a href='javascript:void(0)' id='addLocation' onclick=''>Update this location</a><br/>
+   <a href='javascript:void(0)' id='addLocation' onclick='$.ggMapsFunctions.removeMarker()'>Remove this location</a><br/>
+   
+   <?php 
+   }
+   ?>
+
 </div>
