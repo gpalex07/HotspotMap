@@ -17,7 +17,6 @@
 /* CSS about the infowindow of the Google Map */
 #infoWindowDiv {
   width:335px;
-  height:345px;
   overflow: hidden;
 }
 
@@ -48,3 +47,17 @@
 
 
 /* --------------------------- */
+
+.star-blue {
+  background: url('../img/star.png');
+  width:14px;
+  height:13px;
+  float:left;
+}
+
+.star-dark {
+  background: url('../img/star.png') -16px 0;
+  width:14px;
+  height:13px;
+  float:left;
+}

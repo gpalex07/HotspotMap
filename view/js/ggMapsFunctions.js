@@ -16,7 +16,7 @@
     var MARKER_ADDED_CONFIRMED    = "MARKER_ADDED_CONFIRMED"; // Response message when a marker is succesfully added on the server.
     var MARKER_ADDED_FAILED       = -1;
 
-    var infoWindowContent_addSlidersInit = null;
+
 
 
     // Loads the contents of the infowindow.
@@ -25,6 +25,8 @@
         InfoWindowContentAdd = data;
       });
     }
+    
+
 
 
     $.ggMapsFunctions.initialize=function() {
@@ -35,37 +37,25 @@
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
       /* Adds a sample location */
-      //selectedMarker = new google.maps.Marker({position: myLatlng, map: map, title: 'Hello World!'});
       $.ggMapsFunctions.addMarker(0, myLatlng, "Hello World!");
 
       infowindow = new google.maps.InfoWindow({content: InfoWindowContentAdd});
 
+      // Opens the infowindow to add a marker.
       google.maps.event.addListener(map, "rightclick", function(event) {
-        if(selectedMarker != null){ selectedMarker.setMap(null); selectedMarker = null; }
         selectedMarker = new google.maps.Marker({position: event.latLng, map: map, title: 'Hello World!'});
-
-        /*if(infoWindowContent_addSlidersInit==null) infowindow.content = InfoWindowContentAdd;
-        else infowindow.content = infoWindowContent_addSlidersInit;*/
-
         infowindow.content = InfoWindowContentAdd;
-        infowindow.open(map, selectedMarker);          
+        infowindow.open(map, selectedMarker);
       });
 
       // Infowindow events
-      google.maps.event.addListener(infowindow, 'domready', function() {
-        $.form.initSliders();
-      });
-
-      google.maps.event.addListener(infowindow, 'closeclick', function() {
-        $.form.destroySliders();
-      });
-            
+      google.maps.event.addListener(infowindow, 'domready', function() { $.form.initSliders(); });
+      google.maps.event.addListener(infowindow, 'closeclick', function() { $.form.destroySliders(); });            
   
       // This code keeps the map centered during a resize event.
       google.maps.event.addDomListener(window, "resize", function() {
-          var center = map.getCenter();
           google.maps.event.trigger(map, "resize");
-          map.setCenter(center); 
+          map.setCenter(map.getCenter()); 
       });
 
       return this;
@@ -98,7 +88,7 @@
         selectedMarker= this;
 
         // Once the content is loaded, we display the infowindow
-        $.get( "infoWindow_edit.php?id="+marker.get("id"), function( data ) {
+        $.get( "../controller/infoWindow_read.php?id="+marker.get("id"), function( data ) {
           infowindow.content = data;
           infowindow.open(map, marker);
           $.form.initSliders();
