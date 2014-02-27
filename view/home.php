@@ -10,35 +10,44 @@
     <title>Hotspot Map</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="bootstrap_dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../view/bootstrap_dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../view/css/jumbotron-narrow.css" rel="stylesheet">
 
     <!-- css -->
-    <link rel="stylesheet" type="text/css" href="css/css-star-rater.css" /> <!-- Star rating system (css-star-rater) used in the infowindow -->
-    <link rel="stylesheet" href="css/jslider.css" type="text/css"> <!-- jSlider used in the infowindow -->
-    <link rel="stylesheet" type="text/css" href="css/main.css" /> 
+    <link rel="stylesheet" type="text/css" href="../view/css/css-star-rater.css" /> <!-- Star rating system (css-star-rater) used in the infowindow -->
+    <link rel="stylesheet" type="text/css" href="../view/css/jslider.css" /> <!-- jSlider used in the infowindow -->
+    <link rel="stylesheet" type="text/css" href="../view/css/main.css" /> 
     <!-- end css -->
 
     
     <!-- javascript -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <!-- jSlider js files (jSlider is used in the infowindw) -->
-    <script type="text/javascript" src="js/jSlider/jquery-1.7.1.js"></script>
-    <script type="text/javascript" src="js/jSlider/jshashtable-2.1_src.js"></script>
-    <script type="text/javascript" src="js/jSlider/jquery.numberformatter-1.2.3.js"></script>
-    <script type="text/javascript" src="js/jSlider/tmpl.js"></script>
-    <script type="text/javascript" src="js/jSlider/jquery.dependClass-0.1.js"></script>
-    <script type="text/javascript" src="js/jSlider/draggable-0.1.js"></script>
-    <script type="text/javascript" src="js/jSlider/jquery.slider.js"></script>
+    <script type="text/javascript" src="../view/js/jSlider/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="../view/js/jSlider/jshashtable-2.1_src.js"></script>
+    <script type="text/javascript" src="../view/js/jSlider/jquery.numberformatter-1.2.3.js"></script>
+    <script type="text/javascript" src="../view/js/jSlider/tmpl.js"></script>
+    <script type="text/javascript" src="../view/js/jSlider/jquery.dependClass-0.1.js"></script>
+    <script type="text/javascript" src="../view/js/jSlider/draggable-0.1.js"></script>
+    <script type="text/javascript" src="../view/js/jSlider/jquery.slider.js"></script>
     <!-- end jSlider -->
     <!-- end javascript -->
-    <script src="js/form.js"></script>
-    <script src="js/ggMapsFunctions.js"></script> 
-    <script src="js/disqusFunctions.js"></script> 
+    <script src="../view/js/form.js"></script>
+    <script src="../view/js/ggMapsFunctions.js"></script> 
+    <script src="../view/s/disqusFunctions.js"></script> 
           
     <script type="text/javascript">
+        var currentMarkers = [
+        <?php 
+        for($i=0; $i<count($markersList); ++$i){
+          echo "[" . $markersList[$i]["id"] . "," . $markersList[$i]["lat"] . "," . $markersList[$i]["long"] . ",\"" . $markersList[$i]["name"] . "\"]";
+          if($i < count($markersList)-1) echo ",";
+        }
+        ?>];
+      
+
         $(document).ready(init);
         function init() 
         {
@@ -66,7 +75,7 @@
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="home.php">Home</a></li>
-          <li><a href="about.php">About</a></li>
+          <li><a href="../view/about.php">About</a></li>
           <li><a href="#">Contact</a></li>
         </ul>
         <h3 class="text-muted">Hotspot Map</h3>
@@ -75,7 +84,7 @@
       <div class="jumbotron">
         <h1>Find the best places to code!</h1>
         <p class="lead">Hotspot Map allows you to quickly find the best places where you can code with free internet connection, free coffee, comfortable sofas ... and more!</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign in with Twitter</a></p>
+        <p><a class="btn btn-lg btn-success" href="<?php echo $auth_url; ?>" role="button">Sign-in!</a></p>
       </div>
 
       <div class="row marketing">
@@ -102,17 +111,41 @@
         </div>
       </div>
 
+
+      <script type="text/javascript">
+        var disqus_config = function () {
+        // The generated payload which authenticates users with Disqus
+        this.page.remote_auth_s3 = '<message> <hmac> <timestamp>';
+        this.page.api_key = 'CFdwBHTkz28s3951gIuQXWsY0cXyg2n8EsJZh6Utx3DYeGEt5U3mXUqaC9kIxhut';
+
+        // This adds the custom login/logout functionality
+        this.sso = {
+          name:    "HotspotMap login",
+          button:  "http://localhost/images/samplenews.gif",
+          icon:    "http://localhost/favicon.png",
+          url:     "http://localhost/controller/login.php",
+          logout:  "http://localhost/logout/",
+          width:   "800",
+          height:  "400"
+        };
+      };
+      </script>
+
       <!-- Google Map -->
       <div id="map-canvas"></div>
 
             
       <!-- DISQUS AJAX -->
       <div id="disqus_thread"></div>
+
+
+
+
       <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
         var disqus_shortname = 'hotspotmap'; // required: replace example with your forum shortname
         var disqus_identifier = '1';
-        var disqus_url = "http://localhost/map.php";
+        var disqus_url = "http://localhost/home.php";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {

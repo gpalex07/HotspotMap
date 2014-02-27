@@ -31,7 +31,7 @@ if($CODE){
 // Build the URL and request the authentication token
 extract($_POST);
 
-$authorize = "authorization_code";
+$authorize = "api_key";
 
 $url = 'https://disqus.com/api/oauth/2.0/access_token/?';
 $fields = array(

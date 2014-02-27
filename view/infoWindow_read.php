@@ -35,8 +35,8 @@
       </tr>
    </table>
    <br>
-   <label><input type='checkbox' onclick="return false;" <?php if($data["free_coffee"]==1) echo "checked='checked'"; ?> /> free internet connection</label><br>
-   <label><input type='checkbox' onclick="return false;" <?php if($data["free_connection"]==1) echo "checked='checked'"; ?> /> free coffee</label>
+   <label><input type='checkbox' onclick="return false;" <?php if($data["free_coffee"]==1)      echo "checked='checked'"; ?> /> free internet connection</label><br>
+   <label><input type='checkbox' onclick="return false;" <?php if($data["free_connection"]==1)  echo "checked='checked'"; ?> /> free coffee</label>
    <br><br>                  
    Rate : 
    <div class='rating'>

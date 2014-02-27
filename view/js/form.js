@@ -51,7 +51,6 @@
     formValues.sliderSaturday  = document.getElementById("sliderSaturday" ).value;
     formValues.sliderSunday    = document.getElementById("sliderSunday"   ).value;
 
-
     formValues.freeConnection = document.getElementById("freeInternetConnection").checked;
     formValues.freeCoffee     = document.getElementById("freeCoffee").checked;
 

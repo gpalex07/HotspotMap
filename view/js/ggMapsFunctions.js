@@ -19,9 +19,13 @@
 
 
 
+
+
+
+
     // Loads the contents of the infowindow.
     $.ggMapsFunctions.loadContentsInfoWindow=function(){
-      $.get( "infoWindow_add.html", function( data ) {
+      $.get( "../view/infoWindow_add.html", function( data ) {
         InfoWindowContentAdd = data;
       });
     }
@@ -37,7 +41,14 @@
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
       /* Adds a sample location */
-      $.ggMapsFunctions.addMarker(0, myLatlng, "Hello World!");
+      //$.ggMapsFunctions.addMarker(0, myLatlng, "Hello World!");
+
+      // Add all the current markers
+      for (index = 0; index < currentMarkers.length; ++index) {
+        var idMarker = currentMarkers[index][0];
+        var myLatlng = new google.maps.LatLng(currentMarkers[index][1],currentMarkers[index][2]); // The location's coordinates
+        $.ggMapsFunctions.addMarker(idMarker, myLatlng, currentMarkers[index][3]); // The location's name
+      }
 
       infowindow = new google.maps.InfoWindow({content: InfoWindowContentAdd});
 
@@ -66,8 +77,8 @@
 
     $.ggMapsFunctions.removeMarker = function(id) {
       // Ask the server to delete the marker. Wait for the answer to confirm deletion.
-      $.get( "deleteMarker.php?id="+id, function( data ) {
-        if(data === MARKER_DELETION_CONFIRMED){
+      $.get( "../model/deleteMarker.php?id="+id, function( data ) {
+        if(data == MARKER_DELETION_CONFIRMED){
           selectedMarker.setMap(null);
           selectedMarker = null;
         } else alert("Error: could not delete this marker.\n\nServer response:\n"+data);
@@ -79,7 +90,7 @@
 
     $.ggMapsFunctions.addMarker = function(id, position, title) {
 
-      var marker = new google.maps.Marker({position: position, map: map, title: title, icon: 'img/wave.png'});
+      var marker = new google.maps.Marker({position: position, map: map, title: title, icon: '../view/img/wave.png'});
       marker.set("id", id); // Set the id of the marker, used to get the correct thread of disqus comments
       markers.push(marker);
 
@@ -88,7 +99,7 @@
         selectedMarker= this;
 
         // Once the content is loaded, we display the infowindow
-        $.get( "../controller/infoWindow_read.php?id="+marker.get("id"), function( data ) {
+        $.get( "../controller/infoWindow_edit.php?id="+marker.get("id"), function( data ) {
           infowindow.content = data;
           infowindow.open(map, marker);
           $.form.initSliders();
@@ -104,9 +115,17 @@
       formValues.position= selectedMarker.position;
       var params= $.form.createEncodedStringFromFormObject(formValues); // Prepares this object to pass its values as a string in the get request
 
-      $.get( "addMarker.php"+params, function( data ) {
-        if(data != MARKER_ADDED_FAILED){
-          $.ggMapsFunctions.addMarker(data, formValues.position, "Hello World!"); // The return value (data) is the id of the new marker.
+      $.post( "../model/infoWindow_add.php", 
+        { 
+          name: formValues.locationName, 
+          free_connection: formValues.freeConnection,
+          free_coffee: formValues.freeCoffee,
+          rating: formValues.rating,
+          lat: formValues.position.lat(),
+          long: formValues.position.lng()
+        }).done(function( data ) {
+        if(data != MARKER_ADDED_FAILED){ // data is the id of the row, if insertion succeed, otherwise it's -1
+          $.ggMapsFunctions.addMarker(data, formValues.position, formValues.locationName); // The return value (data) is the id of the new marker.
           selectedMarker.setMap(null);
           selectedMarker = null;
         } else alert("Error: could not add this marker.\n\nServer response:\n"+data);
