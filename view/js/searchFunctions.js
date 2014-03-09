@@ -45,7 +45,7 @@
   }
 
   $.searchFunctions.setupLocationSearch=function() {
-    $( "#search-location" ).click(function() {
+    $( "#search-button" ).click(function() {
       var name   = $( "#search-locationName" ).val();
       var radius = $( "#search-maxDistance" ).val();
       var userLat = "";

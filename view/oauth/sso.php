@@ -29,12 +29,59 @@ function dsq_hmacsha1($data, $key) {
 }
  
 $message = base64_encode(json_encode($data));
-$timestamp = time();
-$hmac = dsq_hmacsha1($message . ' ' . $timestamp, DISQUS_SECRET_KEY);
+echo $message . "<br>";
+$timestamp = 1394379690;
+//$timestamp = time();
+echo $timestamp . "<br>";
+$hmac = dsq_hmacsha1($message . ' ' . $timestamp, "Qt13AeMq2EHk6CxBuAxnhLL8OKtsZZSvG2KhJNbueGi1GtTkcemmsJnJ1QzWTNph");
+echo $hmac;
 ?>
+
+
+<html>
+<head>
+</head>
+<body>
 <script type="text/javascript">
-var disqus_config = function() {
+        var disqus_config = function () {
+        // The generated payload which authenticates users with Disqus
     this.page.remote_auth_s3 = "<?php echo "$message $hmac $timestamp"; ?>";
     this.page.api_key = "<?php echo DISQUS_PUBLIC_KEY; ?>";
-}
-</script>
+
+        // This adds the custom login/logout functionality
+        this.sso = {
+          name:    "HotspotMap login",
+          button:  "http://localhost/images/samplenews.gif",
+          icon:    "http://localhost/favicon.png",
+          url:     "http://localhost/controller/login.php",
+          logout:  "http://localhost/controller/logout.php",
+          width:   "800",
+          height:  "400"
+        };
+      };
+      </script>
+
+<!-- DISQUS AJAX -->
+      <div id="disqus_thread"></div>
+
+
+
+
+      <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'hotspotmap'; // required: replace example with your forum shortname
+        var disqus_identifier = '1';
+        var disqus_url = "http://localhost/home.php";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+  </body>
+  </html>

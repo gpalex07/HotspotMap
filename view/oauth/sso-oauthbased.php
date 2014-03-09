@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 //This is a all-in-one example of API authentication and making API calls using OAuth
 //More information on using OAuth with Disqus can be found here: http://disqus.com/api/docs/auth/
 
@@ -7,14 +9,14 @@ error_reporting(E_ALL ^ E_NOTICE) ;
 
 $PUBLIC_KEY = "CFdwBHTkz28s3951gIuQXWsY0cXyg2n8EsJZh6Utx3DYeGEt5U3mXUqaC9kIxhut";
 $SECRET_KEY = "3nfyqWADVhAHrDVUGRPXQw1WF5VAseQf0WQaD9hbgBAoKFJBLY6C0I3b8oxrhv0m";
-$redirect = "http://localhost/view/oauth/oauth-all-in-one.php";
+$redirect = "http://localhost/view/oauth/sso-oauthbased.php";
 
-$endpoint = 'https://disqus.com/api/oauth/2.0/authorize?';
+$endpoint = 'https://disqus.com/api/oauth/2.0/authorize/?';
 $client_id = $PUBLIC_KEY;
 $scope = 'read,write';
-$response_type = 'code';
+$response_type = 'api_key';
 
-$auth_url = $endpoint.'&client_id='.$client_id.'&scope='.$scope.'&response_type='.$response_type.'&redirect_uri='.$redirect;
+$auth_url = $endpoint.'scope='.$scope.'&response_type='.$response_type.'&redirect_uri='.$redirect;
 
 echo $auth_url;
 
@@ -31,18 +33,16 @@ if($CODE){
 // Build the URL and request the authentication token
 extract($_POST);
 
-$authorize = "authorization_code";
 
-$url = 'https://disqus.com/api/oauth/2.0/access_token/?';
+$url = 'https://disqus.com/api/oauth/2.0/api_key/?';
 $fields = array(
-  'grant_type'=>($authorize),
-  'client_id'=>($PUBLIC_KEY),
-  'client_secret'=>($SECRET_KEY),
+  'grant_type'=>"api_key",
   'redirect_uri'=>($redirect),
   'code'=>($CODE)
 );
 
 //url-ify the data for the POST
+$fields_string='';
 foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
 $fields_string=rtrim($fields_string, "&");
 echo "fields_string= " .$fields_string."<br>";
@@ -71,8 +71,16 @@ curl_close($ch);
 //turn the string into a object
 $auth_results = json_decode($data);
 
-
-
+// Store the results in the user's session on Hotspotmap
+$_SESSION['username']      = $auth_results->username;
+$_SESSION['user_id']       = $auth_results->user_id;
+$_SESSION['access_token']  = $auth_results->access_token;
+$_SESSION['api_secret']    = $auth_results->api_secret;
+$_SESSION['expires_in']    = $auth_results->expires_in;
+$_SESSION['token_type']    = $auth_results->token_type;
+$_SESSION['scope']         = $auth_results->scope;
+$_SESSION['api_key']       = $auth_results->api_key;
+$_SESSION['refresh_token'] = $auth_results->refresh_token;
 
 
 

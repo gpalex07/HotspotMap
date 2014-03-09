@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 $mysqli = new mysqli("localhost", "root", "", "HotspotMap");
 
 /* check connection */

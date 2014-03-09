@@ -64,39 +64,40 @@
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="home.php">Home</a></li>
-          <li><a href="../view/about.php">About</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="about.php">About</a></li>
+          <li><a href="contact.php">Contact</a></li>
+          <?php if(isset($_SESSION['username'])) echo '<li><a href="logout.php">Logout</a></li>'; ?>
         </ul>
-        <h3 class="text-muted">Hotspot Map</h3>
+        <h3 class="text-muted">Hotspot Map <?php if(isset($_SESSION['username'])) echo ' - logged as ' . $_SESSION['username']; ?></h3>
       </div>
 
       <div class="jumbotron">
         <h1>Find the best places to code!</h1>
         <p class="lead">Hotspot Map allows you to quickly find the best places where you can code with free internet connection, free coffee, comfortable sofas ... and more!</p>
-        <p><a class="btn btn-lg btn-success" href="<?php echo $auth_url; ?>" role="button">Sign-in!</a></p>
+        <?php if(!isset($_SESSION['username'])) echo "<p><a class=\"btn btn-lg btn-success\" href=\"../controller/login.php\" role=\"button\">Log-in!</a></p>"; ?>
       </div>
 
       <div class="row marketing">
         <div class="col-lg-6">
           <h4>Search for locations next to you!</h4>
-          <p>a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a </p>
+          <p>By using our search tool below the map, you can easily find locations next to you.</p>
 
-          <h4>a a a a a a a a a a </h4>
-          <p>a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a </p>
+          <h4>Tell everyone what you think about a location!</h4>
+          <p>Our website allows to post comments by using Disqus.</p>
 
-          <h4>a a a a a a a a a a </h4>
-          <p>a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a </p>
+          <h4>Add new locations!</h4>
+          <p>Once you're logged-in HotspotMap, you can add new locations by right clicking the map.</p>
         </div>
 
         <div class="col-lg-6">
           <h4>Join the community to add new locations!</h4>
-          <p>b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b </p>
+          <p>Thanks to Disqus SSO, there's no need to create an account specifically for HotspotMap. You can log-in directly with your Facebook, Google, Twitter accounts.</p>
 
-          <h4>a a a a a a a a a a </h4>
-          <p>a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a </p>
+          <h4>Time is money!</h4>
+          <p>Login in both Disqus & HotspotMap at once. Thanks to Disqus SSO, we offer you to save time. On HotspotMap you won't waste your time by login two times (one time for our website and an other time Disqus).</p>
 
-          <h4>a a a a a a a a a a </h4>
-          <p>a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a </p>
+          <h4>It's free!</h4>
+          <p>Everything is free here.</p>
         </div>
       </div>
 
@@ -113,7 +114,7 @@
           button:  "http://localhost/images/samplenews.gif",
           icon:    "http://localhost/favicon.png",
           url:     "http://localhost/controller/login.php",
-          logout:  "http://localhost/logout/",
+          logout:  "http://example.com/logout/",
           width:   "800",
           height:  "400"
         };
