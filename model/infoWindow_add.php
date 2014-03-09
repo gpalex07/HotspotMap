@@ -32,7 +32,7 @@ if(isset($_POST["name"]))
   }
 
   /* Select queries return a resultset */
-  if ($result = $mysqli->query("INSERT INTO `hotspotmap`.`locations` (`id`, `name`, `free_connection`, `free_coffee`, `rating`, `lat`, `long`) VALUES (NULL, '$name', '$free_connection', '$free_coffee', '$rating', '$lat', '$long')")){
+  if ($result = $mysqli->query("INSERT INTO `hotspotmap`.`locations` (`id`, `name`, `free_connection`, `free_coffee`, `rating`, `lat`, `lng`) VALUES (NULL, '$name', '$free_connection', '$free_coffee', '$rating', '$lat', '$long')")){
   //if ($result = $mysqli->query("INSERT INTO `locations` (`id`, `name`, `free_connection`, `free_coffee`, `rating`, `lat`, `long`) VALUES (NULL, " . $name . ", " . $free_connection . ", " . $free_coffee . ", " . $rating . ", " . $lat . ", " . $long . ")")) {
     
     echo $mysqli->insert_id; // MARKER_ADDED_CONFIRMED

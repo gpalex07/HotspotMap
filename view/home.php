@@ -35,14 +35,15 @@
     <!-- end jSlider -->
     <!-- end javascript -->
     <script src="../view/js/form.js"></script>
+    <script src="../view/js/searchFunctions.js"></script>
     <script src="../view/js/ggMapsFunctions.js"></script> 
-    <script src="../view/s/disqusFunctions.js"></script> 
+    <script src="../view/js/disqusFunctions.js"></script> 
           
     <script type="text/javascript">
         var currentMarkers = [
         <?php 
         for($i=0; $i<count($markersList); ++$i){
-          echo "[" . $markersList[$i]["id"] . "," . $markersList[$i]["lat"] . "," . $markersList[$i]["long"] . ",\"" . $markersList[$i]["name"] . "\"]";
+          echo "[" . $markersList[$i]["id"] . "," . $markersList[$i]["lat"] . "," . $markersList[$i]["lng"] . ",\"" . $markersList[$i]["name"] . "\"]";
           if($i < count($markersList)-1) echo ",";
         }
         ?>];
@@ -55,18 +56,6 @@
         }
     </script>
 
-
-
-
-
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
 
   <body>
@@ -134,6 +123,22 @@
       <!-- Google Map -->
       <div id="map-canvas"></div>
 
+
+      <!-- Search Feature -->
+      <div id="search-location">
+        Search a location near me: 
+        <input type="text" id="search-locationName" placeholder="location's name" />
+        <input type="text" id="search-maxDistance"  placeholder="max. radius in km" id="maxDist" value="100000" />
+        <input type="button" value="Search" id="search-button" />
+
+        <div id='user-location'></div><br>
+
+        <div id="search-location-results">
+        </div>
+      </div>
+      <br>
+
+
             
       <!-- DISQUS AJAX -->
       <div id="disqus_thread"></div>
@@ -167,6 +172,13 @@
     </div> <!-- /container -->
 
     <input type="button" value="destroy sliders" onclick="$.form.destroySliders()" />
+
+
+
+    <script type="text/javascript">
+      // Adds a text displaying the user location and adds the click listener on the search button
+      $.searchFunctions.initialize();
+    </script>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

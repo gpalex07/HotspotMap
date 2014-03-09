@@ -29,14 +29,13 @@
         InfoWindowContentAdd = data;
       });
     }
-    
 
 
 
     $.ggMapsFunctions.initialize=function() {
       $.ggMapsFunctions.loadContentsInfoWindow();
 
-      var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+      var myLatlng = new google.maps.LatLng(45.773459599999995, 3.1030216);
       var mapOptions = {zoom: 4, center: myLatlng }
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
@@ -71,6 +70,19 @@
 
       return this;
     }
+    
+    $.ggMapsFunctions.goToCoordinates=function(lat, lng){
+      //alert("new google.maps.LatLng("+lat+", "+lng+");");
+      var latLng = new google.maps.LatLng(lat, lng);
+      map.setCenter(latLng);
+    }
+
+    $.ggMapsFunctions.addUserPositionMarker=function(lat, lng){
+      //alert("new google.maps.LatLng("+lat+", "+lng+");");
+      var latLng = new google.maps.LatLng(lat, lng);
+      var marker = new google.maps.Marker({position: latLng, map: map, title: "Your current position"});
+      marker.set("id", -1);
+    }
 
 
 
@@ -104,6 +116,7 @@
           infowindow.open(map, marker);
           $.form.initSliders();
         });
+        
       });
     }
 
@@ -122,8 +135,8 @@
           free_coffee: formValues.freeCoffee,
           rating: formValues.rating,
           lat: formValues.position.lat(),
-          long: formValues.position.lng()
-        }).done(function( data ) {
+          lng: formValues.position.lng()
+        }).done(function( data ) { alert(data);
         if(data != MARKER_ADDED_FAILED){ // data is the id of the row, if insertion succeed, otherwise it's -1
           $.ggMapsFunctions.addMarker(data, formValues.position, formValues.locationName); // The return value (data) is the id of the new marker.
           selectedMarker.setMap(null);
