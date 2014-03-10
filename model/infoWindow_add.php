@@ -23,7 +23,7 @@ if(isset($_POST["name"]))
   if(isset($_POST['long']))             $long=$_POST['long'];
 
 
-  $mysqli = new mysqli("localhost", "root", "", "HotspotMap");
+  $mysqli = new mysqli("localhost", "isima", "isima", "hotspotmap");
 
   /* check connection */
   if ($mysqli->connect_errno) {

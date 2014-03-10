@@ -2,7 +2,9 @@
 
 session_start();
 
-$mysqli = new mysqli("localhost", "root", "", "HotspotMap");
+$markersList = array();
+
+$mysqli = new mysqli("localhost", "isima", "isima", "hotspotmap");
 
 /* check connection */
 if ($mysqli->connect_errno) {
@@ -13,7 +15,7 @@ if ($mysqli->connect_errno) {
 /* Select queries return a resultset */
 if ($result = $mysqli->query("SELECT * FROM `locations`")) {
 
-	$markersList = array();
+	
 	while($row = $result->fetch_assoc()) {
 	  $markersList[]=$row;
 	}

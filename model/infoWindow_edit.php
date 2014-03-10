@@ -7,7 +7,7 @@ if(isset($_GET['id']))
 {
   $id = $_GET['id'];
 
-  $mysqli = new mysqli("localhost", "root", "", "HotspotMap");
+  $mysqli = new mysqli("localhost", "isima", "isima", "hotspotmap");
 
   /* check connection */
   if ($mysqli->connect_errno) {

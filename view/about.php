@@ -10,13 +10,13 @@
     <title>Hotspot Map</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="bootstrap_dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../view/bootstrap_dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../view/css/jumbotron-narrow.css" rel="stylesheet">
 
     <!-- css -->
-    <link rel="stylesheet" type="text/css" href="css/main.css" /> 
+    <link rel="stylesheet" type="text/css" href="../view/css/main.css" /> 
     <!-- end css -->
 
 

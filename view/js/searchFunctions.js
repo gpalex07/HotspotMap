@@ -30,6 +30,8 @@
 
   // Adds a link to go to user position on the map
   $.searchFunctions.addUserPositionLink=function() {
+    $("#user-location").html("Your location is: <a href='#' title='You must allow the website to use your location.'>not available</span>.");
+
     if (navigator.geolocation){
       navigator.geolocation.getCurrentPosition(function(position){
         var userLat=position.coords.latitude;
@@ -37,15 +39,16 @@
 
         var link = 'javascript:$.ggMapsFunctions.goToCoordinates(' + userLat +',' + userLng + ');';
 
-        $("#user-location").html("Your location: <a href='" + link + "'>(" + userLat + ", " + userLng + ")</a>");
+        $("#user-location").html("Your location is: <a href='" + link + "'>(" + userLat + ", " + userLng + ")</a>");
         $.ggMapsFunctions.addUserPositionMarker(userLat,userLng); // Adds a marker to the map indicating the user's position.
         $.ggMapsFunctions.goToCoordinates(userLat,userLng); // Center the map on user position
       });
-    } else { $("#user-location").html("Your location: is not available."); }
+    }
   }
 
   $.searchFunctions.setupLocationSearch=function() {
     $( "#search-button" ).click(function() {
+      $("#search-location-results").html("<center><img src='../view/img/loading.gif' /></center>"); // Loading animation
       var name   = $( "#search-locationName" ).val();
       var radius = $( "#search-maxDistance" ).val();
       var userLat = "";

@@ -9,7 +9,7 @@ error_reporting(E_ALL ^ E_NOTICE) ;
 $PUBLIC_KEY = "CFdwBHTkz28s3951gIuQXWsY0cXyg2n8EsJZh6Utx3DYeGEt5U3mXUqaC9kIxhut";
 $SECRET_KEY = "3nfyqWADVhAHrDVUGRPXQw1WF5VAseQf0WQaD9hbgBAoKFJBLY6C0I3b8oxrhv0m";
 
-$redirect = "http://localhost/controller/login.php";
+$redirect = "http://localhost:8080/controller/login.php";
 
 // Get the code to request access
 if(isset($_GET['code'])){

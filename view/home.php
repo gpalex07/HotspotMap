@@ -172,7 +172,6 @@
 
     </div> <!-- /container -->
 
-    <input type="button" value="destroy sliders" onclick="$.form.destroySliders()" />
 
 
 

@@ -1,5 +1,5 @@
 <?php
-// ~/php/public/login.php
+// ~/php/public/home.php
 
 // include model
 include __DIR__ . '/../model/home.php';

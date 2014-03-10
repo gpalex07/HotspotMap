@@ -53,7 +53,7 @@
 
       // Opens the infowindow to add a marker.
       google.maps.event.addListener(map, "rightclick", function(event) {
-        selectedMarker = new google.maps.Marker({position: event.latLng, map: map, title: 'Hello World!'});
+        selectedMarker = new google.maps.Marker({position: event.latLng, map: map, title: 'New marker!'});
         infowindow.content = InfoWindowContentAdd;
         infowindow.open(map, selectedMarker);
       });
