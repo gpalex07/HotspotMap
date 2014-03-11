@@ -21,27 +21,23 @@
           <li {% if controller == 'about'   %}class="active" {% endif %}><a href="/about/show">About</a></li>
           <li {% if controller == 'contact' %}class="active" {% endif %}><a href="/contact/show">Contact</a></li>
           {% if loggedIn == true %}
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="/login/logout">Logout</a></li>
           {% endif %}
         </ul>
         <h3 class="text-muted">Hotspot Map {{ loggedAsStatementString|raw }}</h3>
       </div>
 
+      {% block advert %}
       <div class="jumbotron">
         <h1>Find the best places to code!</h1>
         <p class="lead">Hotspot Map allows you to quickly find the best places where you can code with free internet connection, free coffee, comfortable sofas ... and more!</p>
         {% if loggedIn == false %}
-            <p><a class="btn btn-lg btn-success" href="/login/" role="button">Log-in!</a></p>
+            <p><a class="btn btn-lg btn-success" href="/login/login" role="button">Log-in!</a></p>
         {% endif %}
       </div>
-
+      {% endblock advert %}
 
       {% block content %}{% endblock content %}
-
-      
-      <!-- END DISQUS -->
-    
-
 
       <div class="footer">
         <p>&copy; Pierre-Alexandre Guénolé, Ecrah EZA - ISIMA 2014</p>

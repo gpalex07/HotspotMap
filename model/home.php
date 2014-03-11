@@ -2,8 +2,9 @@
 
 class Home {
 
-	public function _construct(){
-		session_start();
+	public function __construct(){
+		if(!isset($_SESSION))
+			session_start();
 	}
 
 	public function show(){
@@ -15,14 +16,18 @@ class Home {
 		    if($i < count($markersList)-1) $markersJavascriptString .= ",";
 		}
 
-		// Determines if we need to display the logged in statement.
-		$loggedAsStatementString = "";
-		if(isset($_SESSION['username'])) $loggedAsStatementString = ' - logged as ' . $_SESSION['username'];
+		// Determines if we need to display the logged in statement.		
+		$userIsLogged = false;
+		if(isset($_SESSION['IS_AUTHENTICATED']) &&  $_SESSION['IS_AUTHENTICATED']===true)
+			$userIsLogged = true;
 
+
+		$loggedAsStatementString = "";
+		if($userIsLogged === true && isset($_SESSION['username'])) $loggedAsStatementString = ' - logged as ' . $_SESSION['username'];
 
 		$options = array(
 			'controller' => 'home',
-			'loggedIn' => false,
+			'loggedIn' => $userIsLogged,
 			'loggedAsStatementString' => $loggedAsStatementString
 		);
 		return $options;

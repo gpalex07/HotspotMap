@@ -1,13 +1,17 @@
 <?php
 
 require_once("TemplateEngine.php");
+require_once("../model/About.php");
 
 
 class AboutController {
 	public function show(){
-		$en = new TemplateEngine('about', 'show.twig');
+		// First we get values to put in the template
+		$ab = new About();
+		$options = $ab->show();
 
-		$options= array();
+		// Twig
+		$en = new TemplateEngine('about', 'show.twig');
 		$en->render($options);
 	}
 }
