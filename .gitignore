@@ -1,5 +1,6 @@
 cgi-bin
 error
 html
-phpmyadmin
 icons
+phpmyadmin
+vendor

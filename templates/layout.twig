@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      {% block title %}{% endblock title %}
+    </title>
+
+    <!-- The Styles -->
+    {% include 'head.twig' %}
+    {% block css %}{% endblock css %}
+
+    <!-- The javascript -->
+    {% block js %}{% endblock js %}
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li {% if controller == 'home'    %}class="active" {% endif %}><a href="/home/show">Home</a></li>
+          <li {% if controller == 'about'   %}class="active" {% endif %}><a href="/about/show">About</a></li>
+          <li {% if controller == 'contact' %}class="active" {% endif %}><a href="/contact/show">Contact</a></li>
+          {% if loggedIn == true %}
+            <li><a href="logout.php">Logout</a></li>
+          {% endif %}
+        </ul>
+        <h3 class="text-muted">Hotspot Map {{ loggedAsStatementString|raw }}</h3>
+      </div>
+
+      <div class="jumbotron">
+        <h1>Find the best places to code!</h1>
+        <p class="lead">Hotspot Map allows you to quickly find the best places where you can code with free internet connection, free coffee, comfortable sofas ... and more!</p>
+        {% if loggedIn == false %}
+            <p><a class="btn btn-lg btn-success" href="/login/" role="button">Log-in!</a></p>
+        {% endif %}
+      </div>
+
+
+      {% block content %}{% endblock content %}
+
+      
+      <!-- END DISQUS -->
+    
+
+
+      <div class="footer">
+        <p>&copy; Pierre-Alexandre Guénolé, Ecrah EZA - ISIMA 2014</p>
+      </div>
+    </div> <!-- /container -->
+
+    {% block footer %}{% endblock footer %}
+
+    
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  </body>
+</html>

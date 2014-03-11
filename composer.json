@@ -1,0 +1,6 @@
+{
+    "require": {
+        "twig/twig": "v1.15.1",
+        "phpunit/phpunit": "4.0.5"
+    }
+}
