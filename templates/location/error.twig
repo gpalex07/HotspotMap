@@ -5,7 +5,17 @@
       </tr>
       <tr class="blank_row"></tr>
       <tr>
-         {{ error }}
+         {% if error is defined %} 		 
+         	{{ error|raw }} 																
+         {% endif %}<br>
+
+         {% if NotLoggedInCantAddNewLocation is defined %} 
+         	You need to be <a href="/login/login">logged in</a> to add new locations.	
+         {% endif %}<br>
+
+         {% if NotAdmin is defined %} 	 
+         	You need to be have admin rights to perform this action.						
+         {% endif %}
       </tr>
    </table>
 </div>

@@ -9,9 +9,8 @@
     DISQUS.reset({
       reload: true,
       config: function () { 
-        this.page.shortname = "hotspotmap"; 
         this.page.identifier = id;
-        this.page.url = "http://localhost/map.php";
+        this.page.url = "http://localhost:8080/home/show";
       }
     });
     

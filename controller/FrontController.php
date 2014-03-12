@@ -106,8 +106,28 @@ class FrontController implements FrontControllerInterface
 
     	// The firewall checks that the user has the permissions to acces the page.
     	$fw = new Firewall();
-    	if($this->pageNotFoundBool === false && $fw->isAllowed($this->controllerShortName, $this->action)){
-			call_user_func_array(array(new $this->controller, $this->action), $this->params);
+        $us = new User();
+    	if($this->pageNotFoundBool === false){
+            if($fw->isPublic($this->controllerShortName, $this->action)){ // public page
+                call_user_func_array(array(new $this->controller, $this->action), $this->params);
+
+            } else if($fw->isRestricted($this->controllerShortName, $this->action)){ // restricted pages (the user needs to be logged in)
+                if($us->isLoggedIn())
+                    call_user_func_array(array(new $this->controller, $this->action), $this->params);
+                else {
+                    call_user_func_array(array(new $this->controller, "error"), array(array("NotLoggedInCantAddNewLocation" => "You need to be logged in to add new locations.")));
+                    http_response_code(401); // HTTP status code 401 (Unauthorized)
+                }
+
+            } else if($fw->isAdminOnly($this->controllerShortName, $this->action)){ // admin only pages (the user need to have admin rights).
+                if($us->isAdmin())
+                    call_user_func_array(array(new $this->controller, $this->action), $this->params);
+                else {
+                    call_user_func_array(array(new $this->controller, "error"), array(array("NotAdmin" => "You need to be have admin right to perform this action.")));
+                    http_response_code(401); // HTTP status code 401 (Unauthorized)
+                }
+
+            }
     	} else {
     		$this->pageNotFound();
     	}

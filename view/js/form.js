@@ -51,6 +51,14 @@
     formValues.sliderSaturday  = document.getElementById("sliderSaturday" ).value;
     formValues.sliderSunday    = document.getElementById("sliderSunday"   ).value;
 
+    formValues.schedule        = formValues.sliderMonday    + 
+                           '/' + formValues.sliderTuesday   + 
+                           '/' + formValues.sliderWednesday + 
+                           '/' + formValues.sliderThursday  + 
+                           '/' + formValues.sliderFriday    + 
+                           '/' + formValues.sliderSaturday  + 
+                           '/' + formValues.sliderSunday;
+
     formValues.freeConnection = document.getElementById("freeInternetConnection").checked;
     formValues.freeCoffee     = document.getElementById("freeCoffee").checked;
 
@@ -67,7 +75,7 @@
   }
   
 
-  $.form.createEncodedStringFromFormObject=function(formValues){
+  /*$.form.createEncodedStringFromFormObject=function(formValues){
     var params="?";
     params+= "locationName="    +encodeURIComponent(formValues.locationName) +"&";
     params+= "sliderMonday="    +formValues.sliderMonday    +"&";
@@ -84,7 +92,7 @@
     params+= "lng="             +formValues.position.lng();
 
     return params;
-  }
+  }*/
 
 
 })(jQuery);

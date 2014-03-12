@@ -15,19 +15,52 @@ class Firewall {
 		'contact/show' 		=> [ Request::GET ]
 	];
 
+	protected $restricted = [
+		'location/add'    	=> [ Request::POST ],
+		'login/logout'    	=> [ Request::GET ]
+	];
+
+	protected $adminonly = [
+		'location/remove'    => [ Request::GET ]
+	];
+
 	public function __construct(){
 		if(!isset($_SESSION))
 			session_start();
 	}
 
-	public function isAllowed($controller, $action){
+	public function isPublic($controller, $action){
+		// The uri without the parameters (only "controller/action").
+		$str = $controller . '/' . $action;
 
-		if(isset($_SESSION['IS_AUTHENTICATED'])){
-			return true;
+		// public pages
+		foreach($this->allowed as $uri => $methods){
+			if($str === $uri)
+				return true;
 		}
 
+		return false;
+	}
+
+	public function isRestricted($controller, $action){
+		// The uri without the parameters (only "controller/action").
 		$str = $controller . '/' . $action;
-		foreach($this->allowed as $uri => $methods){
+
+		// public pages
+		foreach($this->restricted as $uri => $methods){
+			if($str === $uri)
+				return true;
+		}
+
+		return false;
+	}
+
+	public function isAdminOnly($controller, $action){
+		// The uri without the parameters (only "controller/action").
+		$str = $controller . '/' . $action;
+
+		// public pages
+		foreach($this->adminonly as $uri => $methods){
 			if($str === $uri)
 				return true;
 		}

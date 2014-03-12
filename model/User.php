@@ -17,6 +17,15 @@ class User {
 		return $logged;
 	}
 
+	public function isAdmin(){
+
+		// mysqli
+		if(isset($_SESSION['username']) && $_SESSION['username']=='gpalex') // TEMPORAIRE à remplacer par des requêtes myqsli
+			return true;
+
+		return false;
+	}
+
 	public function getLoggedAsStatement(){
 		$statement = "";
 		if($this->isLoggedIn() === true && isset($_SESSION['username'])) 

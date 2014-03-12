@@ -17,30 +17,19 @@
     var MARKER_ADDED_FAILED       = -1;
 
 
+    // SPECIAL MARKERS.
+    var TEMP_MARKER_ID = -2; // ID of a temp marker (red one, when the user right clicks the map - the marker is not added yet, it is only temp)
+    var USER_MARKER_ID = -1; // ID of the marker indicating the user's position.
 
 
 
-
-
-
-    // Loads the contents of the infowindow.
-    $.ggMapsFunctions.loadContentsInfoWindow=function(){
-      $.get( "../view/infoWindow_add.html", function( data ) {
-        InfoWindowContentAdd = data;
-      });
-    }
 
 
 
     $.ggMapsFunctions.initialize=function() {
-      $.ggMapsFunctions.loadContentsInfoWindow();
-
-      var myLatlng = new google.maps.LatLng(45.773459599999995, 3.1030216);
+      var myLatlng = new google.maps.LatLng(45.773459599999995, 3.1030216); // Centered on Clermont-Ferrand
       var mapOptions = {zoom: 4, center: myLatlng }
       map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-      /* Adds a sample location */
-      //$.ggMapsFunctions.addMarker(0, myLatlng, "Hello World!");
 
       // Add all the current markers
       for (index = 0; index < currentMarkers.length; ++index) {
@@ -49,13 +38,26 @@
         $.ggMapsFunctions.addMarker(idMarker, myLatlng, currentMarkers[index][3]); // The location's name
       }
 
-      infowindow = new google.maps.InfoWindow({content: InfoWindowContentAdd});
+      infowindow = new google.maps.InfoWindow({content: ''});
 
       // Opens the infowindow to add a marker.
       google.maps.event.addListener(map, "rightclick", function(event) {
-        selectedMarker = new google.maps.Marker({position: event.latLng, map: map, title: 'New marker!'});
-        infowindow.content = InfoWindowContentAdd;
-        infowindow.open(map, selectedMarker);
+        // If there's already a temp marker (red one that appears on right click) we delete it.
+        if(selectedMarker != null && selectedMarker.get("id") == TEMP_MARKER_ID) {
+          selectedMarker.setMap(null);
+          selectedMarker = null;
+        }
+        selectedMarker = new google.maps.Marker({position: event.latLng, map: map, title: 'New location'});
+        selectedMarker.set("id", TEMP_MARKER_ID);
+
+        $.get( '/location/add').done(function(data, textStatus, jqXHR){
+          infowindow.content = data;
+          infowindow.open(map, selectedMarker);
+        }).fail(function(jqXHR, textStatus, errorThrown){
+          infowindow.content = jqXHR.responseText;
+          infowindow.open(map, selectedMarker);
+        });
+
       });
 
       // Infowindow events
@@ -81,7 +83,7 @@
       //alert("new google.maps.LatLng("+lat+", "+lng+");");
       var latLng = new google.maps.LatLng(lat, lng);
       var marker = new google.maps.Marker({position: latLng, map: map, title: "Your current position"});
-      marker.set("id", -1);
+      marker.set("id", USER_MARKER_ID);
     }
 
 
@@ -89,12 +91,30 @@
 
     $.ggMapsFunctions.removeMarker = function(id) {
       // Ask the server to delete the marker. Wait for the answer to confirm deletion.
-      $.get( "../model/deleteMarker.php?id="+id, function( data ) {
+
+      $.ajax({
+        url: '/location/remove/' +id,
+        type: 'DELETE',
+        success: function(data) {
+            selectedMarker.setMap(null);
+            selectedMarker = null;
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+
+            // Get the status code
+            if (jqXHR.status == 500) {
+                alert('Could not delete this marker.\n500 status code. Internal error.\n');
+            } else alert('Could not delete this marker.\n' +jqXHR.status +' status code. \nAn error occured while deleting the location.');
+
+        }
+      });
+
+      /*$.delete( "/location/remove/"+id, function( data ) {
         if(data == MARKER_DELETION_CONFIRMED){
           selectedMarker.setMap(null);
           selectedMarker = null;
         } else alert("Error: could not delete this marker.\n\nServer response:\n"+data);
-      });
+      });*/
     }
 
 
@@ -126,22 +146,38 @@
     $.ggMapsFunctions.addNewMarker=function(){
       var formValues= $.form.extractContentInfoWindow(); // Extract the values that the user has typed in the infowindow (=form)
       formValues.position= selectedMarker.position;
-      var params= $.form.createEncodedStringFromFormObject(formValues); // Prepares this object to pass its values as a string in the get request
+      //var params= $.form.createEncodedStringFromFormObject(formValues); // Prepares this object to pass its values as a string in the get request
 
-      $.post( "../model/infoWindow_add.php", 
-        { 
-          name: formValues.locationName, 
-          free_connection: formValues.freeConnection,
-          free_coffee: formValues.freeCoffee,
-          rating: formValues.rating,
-          lat: formValues.position.lat(),
-          lng: formValues.position.lng()
-        }).done(function( data ) { alert(data);
-        if(data != MARKER_ADDED_FAILED){ // data is the id of the row, if insertion succeed, otherwise it's -1
-          $.ggMapsFunctions.addMarker(data, formValues.position, formValues.locationName); // The return value (data) is the id of the new marker.
-          selectedMarker.setMap(null);
-          selectedMarker = null;
-        } else alert("Error: could not add this marker.\n\nServer response:\n"+data);
-      });
-    }
+      $.ajax({
+        type: 'POST',
+        url: '/location/add',
+        data: { 
+          name:             formValues.locationName, 
+          schedule:         formValues.schedule,
+          free_connection:  formValues.freeConnection,
+          free_coffee:      formValues.freeCoffee,
+          rating:           formValues.rating,
+          lat:              formValues.position.lat(),
+          lng:              formValues.position.lng()
+        },
+        success: function(data, textStatus, jqXHR){ // data is the id of the row
+            alert('Location added! (' +jqXHR.status +' status code)');
+            $.ggMapsFunctions.addMarker(jQuery.parseJSON(data), formValues.position, formValues.locationName); // The return value (data) is the id of the new marker.
+            selectedMarker.setMap(null);
+            selectedMarker = null;
+        },
+
+        error: function(jqXHR, textStatus, errorThrown) {
+
+            // Get the status code
+            if (jqXHR.status == 400) {
+                alert('400 status code. Bad request.\nHere is the error message:\n\n' + jQuery.parseJSON(jqXHR.responseText));
+            } else if (jqXHR.status == 500) {
+                alert('500 status code. Internal error.\nAn error occured while adding the new location.');
+            } else alert(jqXHR.status +' status code.\nAn error occured while adding the new location.');
+
+        }
+    });
+
+  }
 })(jQuery);

@@ -16,7 +16,7 @@ class Location {
 
 	public function getLocationById($id = ''){
 
-		$options = array();
+		$options = array('found' => false);
 
 		if(strlen($id) != 0){
 		  	$mysqli = new mysqli("localhost", "isima", "isima", "hotspotmap");
@@ -52,9 +52,11 @@ class Location {
 					'freeConnection' 	=> $data['free_connection'],
 					'rating' 			=> intval($data["rating"]),
 					'loggedIn' 					=> $currentUser->isLoggedIn(),
-					'userCanEdit'				=> $currentUser->canEditLocations(),
+					'userCanEdit'				=> $currentUser->isAdmin(),
 					'loggedAsStatementString' 	=> $currentUser->getLoggedAsStatement()
 				);
+
+				$options['found'] = true;
 		    }
 		    
 		    $result->close(); // free the result set
@@ -67,8 +69,50 @@ class Location {
 		return $options;
 	}
 
-	public function addLocation(){
+	public function addLocation($errorCode, $name='', $schedule='', $free_connection='', $free_coffee='', $rating='', $lat='', $lng=''){
 
+		$res = $errorCode;
+
+		$mysqli = new mysqli("localhost", "isima", "isima", "hotspotmap");
+		$name = $mysqli->real_escape_string($name);
+
+		// Check connection
+		if ($mysqli->connect_errno) {
+			printf("Connect failed: %s\n", $mysqli->connect_error);
+			exit();
+		}
+
+		// Select queries return a resultset
+		if ($result = $mysqli->query("INSERT INTO `hotspotmap`.`locations` (`id`, `name`, `schedule`, `free_connection`, `free_coffee`, `rating`, `lat`, `lng`) VALUES (NULL, '$name', '$schedule', '$free_connection', '$free_coffee', '$rating', '$lat', '$lng')")){
+			  	
+			$res = json_encode($mysqli->insert_id); // MARKER_ADDED_CONFIRMED (return the id of the new marker, which means insertion succeeded).
+		}
+
+		$mysqli->close();
+
+		return $res;
+	}
+
+	public function removeLocation($id){
+		$success =false;
+
+		$mysqli = new mysqli("localhost", "isima", "isima", "hotspotmap");
+
+		/* check connection */
+		if ($mysqli->connect_errno) {
+		    printf("Connect failed: %s\n", $mysqli->connect_error);
+		    exit();
+		}
+
+		/* Select queries return a resultset */
+		if ($mysqli->query("DELETE FROM `locations` WHERE id=" . $id)) {
+			if($mysqli->affected_rows > 0)
+		  		$success = true;
+		}
+
+		$mysqli->close();
+
+		return $success;
 	}
 
 	public function searchLocation($locationName, $radius, $userLat, $usrLng){
