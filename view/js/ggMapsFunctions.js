@@ -98,6 +98,7 @@
         success: function(data) {
             selectedMarker.setMap(null);
             selectedMarker = null;
+            alert('Location removed!');
         },
         error: function(jqXHR, textStatus, errorThrown) {
 
@@ -161,7 +162,7 @@
           lng:              formValues.position.lng()
         },
         success: function(data, textStatus, jqXHR){ // data is the id of the row
-            alert('Location added! (' +jqXHR.status +' status code)');
+            alert('Location added!\n(' +jqXHR.status +' status code)');
             $.ggMapsFunctions.addMarker(jQuery.parseJSON(data), formValues.position, formValues.locationName); // The return value (data) is the id of the new marker.
             selectedMarker.setMap(null);
             selectedMarker = null;

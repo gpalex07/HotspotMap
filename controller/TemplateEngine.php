@@ -10,7 +10,7 @@ class TemplateEngine {
 	private $template;
 
 	public function __construct($controllerName, $templateName) {
-		$this->loader = new Twig_Loader_Filesystem('../templates/');
+		$this->loader = new Twig_Loader_Filesystem('../view/templates/');
 		$this->engine = new Twig_Environment($this->loader);
 
 		$this->template = $this->engine->loadTemplate( $controllerName . '/' . $templateName);

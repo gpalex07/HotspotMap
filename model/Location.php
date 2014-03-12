@@ -71,6 +71,12 @@ class Location {
 
 	public function addLocation($errorCode, $name='', $schedule='', $free_connection='', $free_coffee='', $rating='', $lat='', $lng=''){
 
+		if($free_connection=='true') 	$free_connection=1;
+		if($free_connection=='false')	$free_connection=0;
+		if($free_coffee=='true') 		$free_coffee=1;
+		if($free_coffee=='false') 		$free_coffee=0;
+
+
 		$res = $errorCode;
 
 		$mysqli = new mysqli("localhost", "isima", "isima", "hotspotmap");
@@ -116,49 +122,49 @@ class Location {
 	}
 
 	public function searchLocation($locationName, $radius, $userLat, $usrLng){
-		/*if(isset($_GET['name']) && isset($_GET['radius']) && (!empty($_GET['name']) || !empty($_GET['radius']))){
-			if(isset($_GET['userLat']) && isset($_GET['userLng']))
-			{
-				$KM_TO_MILES = 0.621371192;
-				$MILES_TO_KM = 1.609344;
 
-				$name  =$_GET['name'];
-			  	$radius=$_GET['radius'];
+		$res = json_encode("");
 
-			  	$mysqli = new mysqli("localhost", "isima", "isima", "hotspotmap");
+		$KM_TO_MILES = 0.621371192;
+		$MILES_TO_KM = 1.609344;
 
-			  	/* check connection *//*
-			  	if ($mysqli->connect_errno) {
-			      	printf("Connect failed: %s\n", $mysqli->connect_error);
-			      	exit();
-			  	}
+		$mysqli = new mysqli("localhost", "isima", "isima", "hotspotmap");
 
-			  	$latitude  = $_GET['userLat'];
-			  	$longitude = $_GET['userLng'];
-			  	//$squarredRadius = $_GET['radius'] * $_GET['radius']; // Convert radius from km to miles
+		$locationName = $mysqli->real_escape_string($locationName);
+		$userLat = $mysqli->real_escape_string($userLat);
+		$usrLng = $mysqli->real_escape_string($usrLng);
+		if(!is_numeric($radius)) $radius=-1;
+
+		// Check connection
+		if ($mysqli->connect_errno) {
+			printf("Connect failed: %s\n", $mysqli->connect_error);
+			exit();
+		}
+
+		if($radius<0) // We need to define a >0 radius since there will be no result otherwise.
+			$radius = PHP_INT_MAX;
+
+		// We always need to make a request with the distance constraint to be able to display the locations distance from the user position (in the search result, last column).
+		$queryString ="SELECT *, ((ACOS(SIN($userLat * PI() / 180) * SIN(lat * PI() / 180) + COS($userLat * PI() / 180) * COS(lat * PI() / 180) * COS(($usrLng - lng) * PI() / 180)) * 180 / PI()) * 60 * 1.1515)*$MILES_TO_KM AS `distance` FROM `locations` WHERE `name` LIKE '%$locationName%' HAVING `distance` <=$radius ORDER BY `distance` ASC";
+		
+			
+		
 
 
-			  	/* Select queries return a resultset */
-			  	// I don't take the SQRT of the distance, instead, I squarred the radius (for performance).
-			  	/*if($result = $mysqli->query("SELECT *, 
-			      	POW(69.1 * (lat - $latitude), 2) +
-			      	POW(69.1 * ($longitude - lng) * COS(lat / 57.3), 2) AS distance
-			  		FROM locations HAVING distance < $squarredRadius ORDER BY distance"))*//*
-				if($result = $mysqli->query("SELECT *, ((ACOS(SIN($latitude * PI() / 180) * SIN(lat * PI() / 180) + COS($latitude * PI() / 180) * COS(lat * PI() / 180) * COS(($longitude - lng) * PI() / 180)) * 180 / PI()) * 60 * 1.1515)*$MILES_TO_KM AS `distance` FROM `locations` HAVING `distance` <=$radius ORDER BY `distance` ASC"))
-			  	{
-			  		$data = array();
-					while($row = $result->fetch_assoc()) {
-					  $data[]=$row;
-					}
-			  		echo json_encode($data);
-			  	} else echo json_encode($mysqli->error);
+		if($result = $mysqli->query($queryString)){
+			$data = array();
+			while($row = $result->fetch_assoc())
+				$data[]=$row;
+			
+			$res = json_encode($data);
+		} else {
+			//$res = json_encode($mysqli->error);
+			throw new Exception($mysqli->error);
+		}
 
-			  	$mysqli->close();
-			} else {
-				echo json_encode("Sorry, geolocalisation failed. Your location has not been detected. Search aborted.");
-			}
+		$mysqli->close();		
 
-		} else echo json_encode("Please type the name of the location or a radius.");*/
+		return $res;
 	}
 }
 

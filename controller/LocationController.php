@@ -2,9 +2,10 @@
 
 require_once("TemplateEngine.php");
 require_once("../model/Location.php");
+require_once("BaseController.php");
 
 
-class LocationController {
+class LocationController extends BaseController {
 
 	protected $errorCode = '-1';
 
@@ -129,6 +130,34 @@ class LocationController {
 				http_response_code(500); // Internal server error
 			}
 		}
+	}
+
+	public function search(){
+
+		if(isset($_GET['name']) && isset($_GET['radius']) /*&& (!empty($_GET['name']) || !empty($_GET['radius']))*/){
+			if(isset($_GET['userLat']) && isset($_GET['userLng'])){
+
+				$loc = new Location();
+				try {
+					$res = $loc->searchLocation($_GET['name'], $_GET['radius'], $_GET['userLat'], $_GET['userLng']);
+					http_response_code(200); // Success
+					echo $res;
+				} catch(Exception $e){
+					http_response_code(500); // Internal error
+					echo json_encode($e->getMessage());
+				}
+
+
+			} else {
+				http_response_code(400); // Bad request
+				echo json_encode("Sorry, geolocalisation failed. Your location has not been detected. Search aborted.");
+			}
+		} else {
+			http_response_code(400); // Bad request
+			$options = array('error' => "Please type the name of the location or a radius.");
+			$this->error($options);
+		}
+
 	}
 }
 

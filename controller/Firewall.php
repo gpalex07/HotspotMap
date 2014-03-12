@@ -12,6 +12,7 @@ class Firewall {
 		'about/show'   		=> [ Request::GET ],
 		'login/login'  		=> [ Request::GET ],
 		'location/show'  	=> [ Request::GET ],
+		'location/search'  	=> [ Request::GET ],
 		'contact/show' 		=> [ Request::GET ]
 	];
 

@@ -107,11 +107,15 @@ class FrontController implements FrontControllerInterface
     	// The firewall checks that the user has the permissions to acces the page.
     	$fw = new Firewall();
         $us = new User();
+
+
     	if($this->pageNotFoundBool === false){
-            if($fw->isPublic($this->controllerShortName, $this->action)){ // public page
+            // public page
+            if($fw->isPublic($this->controllerShortName, $this->action)){ 
                 call_user_func_array(array(new $this->controller, $this->action), $this->params);
 
-            } else if($fw->isRestricted($this->controllerShortName, $this->action)){ // restricted pages (the user needs to be logged in)
+            // restricted pages (the user needs to be logged in)
+            } else if($fw->isRestricted($this->controllerShortName, $this->action)){ 
                 if($us->isLoggedIn())
                     call_user_func_array(array(new $this->controller, $this->action), $this->params);
                 else {
@@ -119,16 +123,23 @@ class FrontController implements FrontControllerInterface
                     http_response_code(401); // HTTP status code 401 (Unauthorized)
                 }
 
-            } else if($fw->isAdminOnly($this->controllerShortName, $this->action)){ // admin only pages (the user need to have admin rights).
+            // admin only pages (the user need to have admin rights).
+            } else if($fw->isAdminOnly($this->controllerShortName, $this->action)){ 
                 if($us->isAdmin())
                     call_user_func_array(array(new $this->controller, $this->action), $this->params);
                 else {
                     call_user_func_array(array(new $this->controller, "error"), array(array("NotAdmin" => "You need to be have admin right to perform this action.")));
                     http_response_code(401); // HTTP status code 401 (Unauthorized)
                 }
+            } else $this->pageNotFound();
 
-            }
-    	} else {
+        // This is root page ie. http://localhost:8080.
+    	} else if($_SERVER["REQUEST_URI"] == '/'){ 
+            $this->controller = "HomeController";
+            call_user_func_array(array(new $this->controller, "show"), array());
+
+        // Unknown page
+        } else {
     		$this->pageNotFound();
     	}
     }

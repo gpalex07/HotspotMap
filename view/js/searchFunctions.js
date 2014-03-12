@@ -58,14 +58,24 @@
           userLat=position.coords.latitude;
           userLng=position.coords.longitude;
 
-          $.get( "../model/searchLocations.php?name="+name+"&radius="+radius+"&userLat="+userLat+"&userLng="+userLng, function( data ) {
+          $.get( "/location/search?name="+name+"&radius="+radius+"&userLat="+userLat+"&userLng="+userLng).done(function(data, textStatus, jqXHR){
+            var res = $.searchFunctions.buildHtmlTableFromJson(data);
+            $("#search-location-results").html(res);
+
+          }).fail(function(jqXHR, textStatus, errorThrown){
+            $("#search-location-results").html(jQuery.parseJSON(jqXHR.responseText));
+          });
+
+
+
+          /*$.get( "/location/search?name="+name+"&radius="+radius+"&userLat="+userLat+"&userLng="+userLng, function( data ) {
             //$("#search-location-results").html(data);
 
             // Converts json to html table
             var res = $.searchFunctions.buildHtmlTableFromJson(data);
 
             $("#search-location-results").html(res);
-          });
+          });*/
 
         });
       } else $("#search-location-results").html("Your position (lat,lng) is not available.");
