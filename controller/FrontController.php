@@ -14,6 +14,7 @@ class FrontController implements FrontControllerInterface
     protected $action        		= self::DEFAULT_ACTION;
     protected $params        		= array();
     protected $basePath      		= "";
+    protected $pageNotFoundBool     = false;
    
     public function __construct(array $options = array()) {
         if (empty($options)) {
@@ -55,6 +56,7 @@ class FrontController implements FrontControllerInterface
 	    	$this->controllerShortName = $controller;
 	        $controller = ucfirst(strtolower($controller)) . "Controller";
 	        if (!class_exists($controller)) {
+                $this->pageNotFoundBool = true;
 	            /*throw new InvalidArgumentException(
 	                "The action controller '$controller' has not been defined.");*/
 	        }
@@ -69,6 +71,7 @@ class FrontController implements FrontControllerInterface
     	try {
     		$reflector = new ReflectionClass($this->controller);
 	        if (!$reflector->hasMethod($action)) {
+                $this->pageNotFoundBool = true;
 	            /*throw new InvalidArgumentException(
 	                "The controller action '$action' has been not defined.");*/
 	        }
@@ -82,6 +85,15 @@ class FrontController implements FrontControllerInterface
         $this->params = $params;
         return $this;
     }
+
+    public function pageNotFound(){
+        // Twig - 404 NOT FOUND
+        http_response_code(404); // HTTP status code 404 (NOT FOUND)
+
+        $en = new TemplateEngine('', '404.twig');
+        $options = array();
+        $en->render($options);
+    }
    
     public function run() {
     	// no controller and no action => current url is lcoalhost/
@@ -94,15 +106,10 @@ class FrontController implements FrontControllerInterface
 
     	// The firewall checks that the user has the permissions to acces the page.
     	$fw = new Firewall();
-    	if($fw->isAllowed($this->controllerShortName, $this->action)){
-
+    	if($this->pageNotFoundBool === false && $fw->isAllowed($this->controllerShortName, $this->action)){
 			call_user_func_array(array(new $this->controller, $this->action), $this->params);
-
     	} else {
-    		// Twig - 404 NOT FOUND
-			$en = new TemplateEngine('', '404.twig');
-			$options = array();
-			$en->render($options);
+    		$this->pageNotFound();
     	}
     }
 }

@@ -111,7 +111,7 @@
         selectedMarker= this;
 
         // Once the content is loaded, we display the infowindow
-        $.get( "../controller/infoWindow_edit.php?id="+marker.get("id"), function( data ) {
+        $.get( "/location/show/"+marker.get("id"), function( data ) {
           infowindow.content = data;
           infowindow.open(map, marker);
           $.form.initSliders();

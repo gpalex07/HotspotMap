@@ -8,10 +8,11 @@ class Request {
 
 class Firewall {
 	protected $allowed = [
-		'home/show'    => [ Request::GET ],
-		'about/show'   => [ Request::GET ],
-		'login/login'  => [ Request::GET ],
-		'contact/show' => [ Request::GET ]
+		'home/show'    		=> [ Request::GET ],
+		'about/show'   		=> [ Request::GET ],
+		'login/login'  		=> [ Request::GET ],
+		'location/show'  	=> [ Request::GET ],
+		'contact/show' 		=> [ Request::GET ]
 	];
 
 	public function __construct(){
