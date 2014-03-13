@@ -5,7 +5,7 @@
   $.disqusFunctions = function() {}
 
   // Refresh the disqus section with the new thread id
-  $.disqusFunctions.reloadWithMarkerId=function(id) { alert("Reloading comments with id= "+id);
+  $.disqusFunctions.reloadWithMarkerId=function(id) { //alert("Reloading comments with id= "+id);
     DISQUS.reset({
       reload: true,
       config: function () { 
