@@ -1,5 +1,11 @@
+Overview
+=====
+An overview of our works is available in the *screnshoot* folder. Some images are prefixed by numbers. You should watch these images in the order of the numbers since each screenshot is one step of the demonstration.  
+The screenshots are self explanatory, we don't think that further explanations on these screenshots are needed :P
+
+
 Quick start
-========
+=======
 Vagrant
 -----------
 Vagrant is the best solution to choose to set up this project!
@@ -53,6 +59,7 @@ Note: if you get the message *"Some settings on your machine make Composer unabl
 - database logins isima/isima
 - hotspotmap uses url rewriting, so AllowOverride must be set to All (it usely set to All by default)
 - remove alias /home to avoid conflicts with hotspotmap's pages
+- to check that the .htaccess is working (not ignored by apache), just type 127.0.0.1:8080/index.html. If the page displays 'It works!' then the index.html is loaded which means that the .htaccess has been ignored. It should instead display a 404 not found page (if the .htaccess was working).
 
 
 Browsing HotspotMap
