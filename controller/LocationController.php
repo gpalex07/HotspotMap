@@ -43,10 +43,12 @@ class LocationController extends BaseController {
 	}
 
 	public function add(){
+		$us = new User();
+
 
 		if($_SERVER['REQUEST_METHOD'] === 'GET'){ // Get the html form to enter the location's caracteristics.
 			$this->getAddForm();
-		} else if($_SERVER['REQUEST_METHOD'] === 'POST'){ // Send to completed form in order to add the new location to database.
+		} else if($_SERVER['REQUEST_METHOD'] === 'POST' && $us->isLoggedIn()){ // Send to completed form in order to add the new location to database.
 			$this->addNewLocation();
 		}
 

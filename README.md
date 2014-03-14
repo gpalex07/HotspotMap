@@ -3,6 +3,9 @@ Overview
 An overview of our works is available in the *screnshoot* folder. Some images are prefixed by numbers. You should watch these images in the order of the numbers since each screenshot is one step of the demonstration.  
 The screenshots are self explanatory, we don't think that further explanations on these screenshots are needed :P
 
+Tests
+====
+We ran all the tests we've written. They all passed.
 
 Quick start
 =======
