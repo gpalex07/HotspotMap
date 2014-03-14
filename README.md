@@ -49,6 +49,7 @@ Note: if you get the message *"Some settings on your machine make Composer unabl
 
 - use server port 8080 (localhost:8080)
 - database logins isima/isima
+- hotspotmap uses url rewriting, so AllowOverride must be set to All (it usely set to All by default)
 
 
 Browsing HotspotMap
