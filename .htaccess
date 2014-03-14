@@ -2,4 +2,4 @@ RewriteEngine on
 #RewriteCond %{REQUEST_FILENAME} !-f
 #RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !^.*\.(css|jpe?g|gif|png|js|ico)$ [NC]
-RewriteRule ^(.*)$ /controller/index.php
+RewriteRule ^(.*)$ controller/index.php

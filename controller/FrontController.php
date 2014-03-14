@@ -91,7 +91,7 @@ class FrontController implements FrontControllerInterface
         http_response_code(404); // HTTP status code 404 (NOT FOUND)
 
         $en = new TemplateEngine('', '404.twig');
-        $options = array();
+        $options = array('pageUrl' => $this->controllerShortName . '/' . $this->action);
         $en->render($options);
     }
    
