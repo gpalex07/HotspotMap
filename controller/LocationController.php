@@ -14,6 +14,13 @@ class LocationController extends BaseController {
 			$loc = new Location();
 			$options = $loc->getLocationById($id);
 
+			$currentUser = new User();
+			$loginOptions = array(	'loggedIn' 					=> $currentUser->isLoggedIn(),
+									'userCanEdit'				=> $currentUser->isAdmin(),
+									'loggedAsStatementString' 	=> $currentUser->getLoggedAsStatement());
+
+			$options = array_merge($options, $loginOptions);
+
 			if($options['found'] === true){
 				// Twig
 				$en = new TemplateEngine('location', 'show.twig');

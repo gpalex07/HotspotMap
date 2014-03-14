@@ -36,7 +36,6 @@ class Location {
 		      	$data = $result->fetch_array(MYSQLI_ASSOC);
 
 		      	$horaires = explode('/', $data['schedule']);
-			  	$currentUser = new User();
 
 				$options = array(
 					'id' 				=> $data['id'],
@@ -50,10 +49,7 @@ class Location {
 					'scheduleSunday' 	=> $horaires[6],
 					'freeCoffee' 		=> $data['free_coffee'],
 					'freeConnection' 	=> $data['free_connection'],
-					'rating' 			=> intval($data["rating"]),
-					'loggedIn' 					=> $currentUser->isLoggedIn(),
-					'userCanEdit'				=> $currentUser->isAdmin(),
-					'loggedAsStatementString' 	=> $currentUser->getLoggedAsStatement()
+					'rating' 			=> intval($data["rating"])
 				);
 
 				$options['found'] = true;
