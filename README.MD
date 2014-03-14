@@ -28,7 +28,8 @@ The virtual machine's download should begin along with it's configuration.
 EasyPHP
 --------------
 
-This solution based on EasyPHP is provided, even though we do **not** recommend it. Use Vagrant if possible.
+This solution based on EasyPHP is provided, even though we do **not** recommend it. Use Vagrant if possible.  
+EasyPHP define alias, such as */home* (*127.0.0.1/home/*) that it uses to show configuration page. However this creates conflicts with our page's controller also nammed *home/* (*127.0.0.1/home/show*). We explain however how to remove this conflict in the following steps.
 
 In the following instructions, we'll assume that your local folder on your host machine is named *phphm*, and that it's full path is */path/to/phphm*.
 
@@ -37,9 +38,11 @@ In the following instructions, we'll assume that your local folder on your host 
 - Download and install Composer : https://getcomposer.org/download/  
 Note: if you get the message *"Some settings on your machine make Composer unable to work properly.[...] The openssl extension is missing [...]"* go to system tray, right click EasyPHP > configuration > PHP. Uncomment the line *extension=php_openssl.dll* by removing the semi-colon.
 - Go in the folder */path/to/phphm/HotspotMap/* and type *composer install*. This will install all the dependencies of the project.
-- In the system tray, right click the EasyPHP icon and select Configuration, then Apache. Change the DocumentRoot to your folder */path/to/phphm/HotspotMap* so that 127.0.0.1 points to this folder.
+- In the system tray, right click the EasyPHP icon and select Configuration, then Apache. This will open httpd.conf. In virtualhost localweb, change the DocumentRoot to your folder */path/to/phphm/HotspotMap* so that 127.0.0.1 points to this folder, and also change the directory of the virtualhost to */path/to/phphm/HotspotMap*.
+- Still in this file, change the listening port from 80 to 8080.
+- Still in this file, comment the line *Alias /home* by adding a # symbol before it. This is very important!
 - Now you need to import the hotspotmap database in your myqsl server. Use EasyPHP's PhpMyAdmin, then create a new database called *hotspotmap* (respect lower case here). Then click on it and *import* the file in */path/to/phphm/HotspotMap/database*. After doing this, a new table called *locations* should have been added.
-- Now create a new mysql user. On EasyPHP PhpMyAdmin's main page click Users > Add a user > then set name = isima and password = isima. Chec *All priviledges* and validate.
+- Now create a new mysql user. On EasyPHP PhpMyAdmin's main page click Users > Add a user > then set name = isima and password = isima and for client select local. Check *All priviledges* and validate.
 - Still in Users, for the user *isima* click on Change user priviledges. Then in *Specific priviledges on a database* select *hotspotmap*. Check the checkbox *check all* to give all priviledges on the database *hotspotmap* to user *isima*.
 - In the system tray, right click the EasyPHP icon and select Configuration, then Apache. Change the port of the virtual host to 8080.
 - **You're done!**
@@ -48,10 +51,12 @@ Note: if you get the message *"Some settings on your machine make Composer unabl
 
 - use server port 8080 (localhost:8080)
 - database logins isima/isima
+- hotspotmap uses url rewriting, so AllowOverride must be set to All (it usely set to All by default)
+- remove alias /home to avoid conflicts with hotspotmap's pages
 
 
 Browsing HotspotMap
-================
+===================
 
 Now that everything's set up, you can access hotspotmap via http://localhost:8080/ (don't forget the 8080 port).
   
@@ -62,7 +67,7 @@ You can now add new locations to the Google Map and set their name, schedule (op
 If you are logged as admin (gpalex) you can also remove them.
 
 About our work
-================
+==============
 
 HotspotMap has been developped for an ISIMA ZZ3 PHP student practical.
 
