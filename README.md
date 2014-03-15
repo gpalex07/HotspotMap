@@ -120,6 +120,7 @@ We did **not**:
 - use geocoding to allow the user to find a location on the map, given an address
 - did not support content negociation
 - did not use any design pattern for database storage
+- did not use PSR-0 (since we did not use autoloading)
 
 
 About our choices
