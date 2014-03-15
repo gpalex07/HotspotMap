@@ -1,16 +1,18 @@
 Overview
-=====
+========
 An overview of our works is available in the *screnshoot* folder. Some images are prefixed by numbers. You should watch these images in the order of the numbers since each screenshot is one step of the demonstration.  
-The screenshots are self explanatory, we don't think that further explanations on these screenshots are needed :P
+The screenshots are self explanatory, we don't think that further explanations on these are needed :P
 
 Tests
-====
-We ran all the tests we've written. They all passed.
+=====
+
+There are 3 files containing tests. They use PHPUnit.
+We ran all these, they all passed successfully.
 
 Quick start
-=======
+===========
 Vagrant
------------
+-------
 Vagrant is the best solution to choose to set up this project!
 
 In the following instructions, we'll assume that your local folder on your host machine is named *phphm*, and that it's full path is */path/to/phphm*.
@@ -35,7 +37,7 @@ The virtual machine's download should begin along with it's configuration.
 
 
 EasyPHP
---------------
+-------
 
 This solution based on EasyPHP is provided, even though we do **not** recommend it. Use Vagrant if possible.  
 EasyPHP define alias, such as */home* (*127.0.0.1/home/*) that it uses to show configuration page. However this creates conflicts with our page's controller also nammed *home/* (*127.0.0.1/home/show*). We explain however how to remove this conflict in the following steps.
@@ -78,10 +80,12 @@ If you are logged as admin (gpalex) you can also remove them.
 
 About our work
 ==============
+What we did
+-----------
 
 HotspotMap has been developped for an ISIMA ZZ3 PHP student practical.
 
-Here are **some** of the things we did during this project :
+Here are **some** of the things we did during this project:
 
 - **used Vagrant** to have a reproductible environment ;
 - **used Composer** to install our packages (PHPUnit, Twig ...) ;
@@ -93,6 +97,7 @@ Here are **some** of the things we did during this project :
 - **used PhpMyAdmin** to manage the database ;
 - **used lots of Javascript** to implement the actions around the Google Map, the sliders of the UI ... ;
 - **used AJAX** to offer a better user experience. He can display/add/remove places dynamically ;
+- **used JSON** to deliver the result of a research ;
 - **used jQuery** to write most of your Javascript codes ;
 - **used Disqus** to allow the user to post comments on our website ;
 - **used HTML5 Geolocation** to estimate the user's geographic position ;
@@ -101,4 +106,25 @@ Here are **some** of the things we did during this project :
 - **used REST** to identify each ressource in a standardized way ;
 - **used HTTP codes** to communicate with the client properly (201, 400, 401, 404, 500) ;
 - **used git** to commit our work throughout the entire project ;
+- **used MVC pattern** to write separate logic from view ;
+- **used PHPUnit** to test our code ;
+- **used mocks** in our tests ;
 - **etc.**
+
+
+
+What we did not do
+------------------
+
+We did **not**:
+- use geocoding to allow the user to find a location on the map, given an address
+- did not support content negociation
+- did not use any design pattern for database storage
+
+
+About our choices
+=================
+We'll briefly explain why we choosed the technologies we talked about.
+
+We have chosen Twig as the template engine because it is fast and simple to use. In addition, it is easy to install via *composer*.
+We have chosen PHPUnit for unit testing because there is a solid user base, and the documentation is dense.
